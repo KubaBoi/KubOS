@@ -1,0 +1,3 @@
+gnu-efi - make bootloader
+kernel - make buildimg
+kernel - make run
