@@ -3,6 +3,7 @@
 #include "../pci.h"
 
 namespace AHCI {
+
     enum PortType {
         None = 0,
         SATA = 1,
@@ -11,14 +12,15 @@ namespace AHCI {
         SATAPI = 4,
     };
 
-    struct HBAPort {
+    struct HBAPort{
         uint32_t commandListBase;
-        uint32_t commandLineBaseUpper;
+        uint32_t commandListBaseUpper;
         uint32_t fisBaseAddress;
+        uint32_t fisBaseAddressUpper;
         uint32_t interruptStatus;
         uint32_t interruptEnable;
         uint32_t cmdSts;
-        uint32_t srv0;
+        uint32_t rsv0;
         uint32_t taskFileData;
         uint32_t signature;
         uint32_t sataStatus;
@@ -28,11 +30,11 @@ namespace AHCI {
         uint32_t commandIssue;
         uint32_t sataNotification;
         uint32_t fisSwitchControl;
-        uint32_t rsv[11];
+        uint32_t rsv1[11];
         uint32_t vendor[4];
     };
 
-    struct HBAMemory {
+    struct HBAMemory{
         uint32_t hostCapability;
         uint32_t globalHostControl;
         uint32_t interruptStatus;
@@ -49,7 +51,7 @@ namespace AHCI {
         HBAPort ports[1];
     };
 
-    class AHCIDriver {
+    class AHCIDriver{
         public:
         AHCIDriver(PCI::PCIDeviceHeader* pciBaseAddress);
         ~AHCIDriver();

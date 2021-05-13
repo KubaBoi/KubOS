@@ -36,21 +36,18 @@ namespace AHCI{
 
     void AHCIDriver::ProbePorts(){
         uint32_t portsImplemented = ABAR->portsImplemented;
-        for (int i = 0; i < 32; i++){
-            if (portsImplemented & (1 << i)){
+        for (int i = 0; i < 32; i++) {
+            if (portsImplemented & (1 << i)) {
                 PortType portType = CheckPortType(&ABAR->ports[i]);
 
-                if (portType == PortType::SATA) 
-                {
+                if (portType == PortType::SATA) {
                     GlobalRenderer->Print("SATA drive");
                     GlobalRenderer->Next();
                 }
-                else if (portType == PortType::SATAPI) 
-                {
+                else if (portType == PortType::SATAPI) {
                     GlobalRenderer->Print("SATAPI drive");
                     GlobalRenderer->Next();
-                }else 
-                {
+                }else {
                     GlobalRenderer->Print("Not interested");
                     GlobalRenderer->Next();
                 }

@@ -5,15 +5,15 @@
 #include "BasicRenderer.h"
 #include "cstr.h"
 
-namespace PCI {
-    struct PCIDeviceHeader {
+namespace PCI{
+    struct PCIDeviceHeader{
         uint16_t VendorID;
         uint16_t DeviceID;
         uint16_t Command;
         uint16_t Status;
         uint8_t RevisionID;
         uint8_t ProgIF;
-        uint8_t SubClass;
+        uint8_t Subclass;
         uint8_t Class;
         uint8_t CacheLineSize;
         uint8_t LatencyTimer;
@@ -29,7 +29,7 @@ namespace PCI {
         uint32_t BAR3;
         uint32_t BAR4;
         uint32_t BAR5;
-        uint32_t CardBusCISPtr;
+        uint32_t CardbusCISPtr;
         uint16_t SubsystemVendorID;
         uint16_t SubsystemID;
         uint32_t ExpansionROMBaseAddr;
@@ -42,7 +42,6 @@ namespace PCI {
         uint8_t MinGrant;
         uint8_t MaxLatency;
     };
-    
 
     void EnumeratePCI(ACPI::MCFGHeader* mcfg);
 
@@ -52,5 +51,4 @@ namespace PCI {
     const char* GetDeviceName(uint16_t vendorID, uint16_t deviceID);
     const char* GetSubclassName(uint8_t classCode, uint8_t subclassCode);
     const char* GetProgIFName(uint8_t classCode, uint8_t subclassCode, uint8_t progIF);
-    
 }
