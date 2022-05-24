@@ -5,31 +5,13 @@ GCCPARAMS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti 
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 
-objects = obj/loader.o \
-          obj/gdt.o \
-          obj/drivers/driver.o \
-          obj/hardwarecommunication/port.o \
-          obj/hardwarecommunication/interruptstubs.o \
-          obj/hardwarecommunication/interrupts.o \
-		  obj/hardwarecommunication/pci.o \
-          obj/drivers/keyboard.o \
-          obj/drivers/mouse.o \
-		  obj/drivers/vga.o \
-		  obj/gui/widget.o \
-		  obj/gui/window.o \
-		  obj/gui/desktop.o \
-          obj/kernel.o
+objects = loader.o kernel.o
 
 
-run: $(OSNAME).iso
-	qemu-system-x86_64 -boot d -cdrom $(OSNAME).iso -m 512
-
-obj/%.o: src/%.cpp
-	mkdir -p $(@D)
+%.o: %.cpp
 	gcc $(GCCPARAMS) -c -o $@ $<
 
-obj/%.o: src/%.s
-	mkdir -p $(@D)
+%.o: %.s
 	as $(ASPARAMS) -o $@ $<
 
 $(OSNAME).bin: linker.ld $(objects)
