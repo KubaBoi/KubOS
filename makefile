@@ -1,17 +1,26 @@
 
+# sudo apt-get install g++ binutils libc6-dev-i386
+# sudo apt-get install VirtualBox grub-legacy xorriso
+
 OSNAME = KubOS
 
 GCCPARAMS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 
-objects = loader.o kernel.o
+objects = obj/loader.o 
+          obj/kernel.o
 
 
-%.o: %.cpp
+run: $(OSNAME).iso
+	qemu-system-x86_64 -boot d -cdrom $(OSNAME).iso -m 512
+
+obj/%.o: src/%.cpp
+	mkdir -p $(@D)
 	gcc $(GCCPARAMS) -c -o $@ $<
 
-%.o: %.s
+obj/%.o: src/%.s
+	mkdir -p $(@D)
 	as $(ASPARAMS) -o $@ $<
 
 $(OSNAME).bin: linker.ld $(objects)
@@ -30,12 +39,8 @@ $(OSNAME).iso: $(OSNAME).bin
 	echo '  boot'                            >> iso/boot/grub/grub.cfg
 	echo '}'                                 >> iso/boot/grub/grub.cfg
 	grub-mkrescue --output=$(OSNAME).iso iso
+	rm -rf iso
 
 .PHONY: clean
 clean:
 	rm -rf obj $(OSNAME).bin $(OSNAME).iso
-
-.PHONY: cleanAll
-cleanAll:
-	rm -rf obj $(OSNAME).bin $(OSNAME).iso
-	rm -r iso
