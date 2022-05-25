@@ -21,5 +21,7 @@ extern "C" void callConstructors()
 extern "C" void kernelMain(const void* multiboot_structure, unsigned int /*multiboot_magic*/) {
     print("Hello :)");
 
-    while(1);
+    while(true) {
+        print("Hello\n");
+    }
 }
