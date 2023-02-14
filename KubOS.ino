@@ -94,6 +94,7 @@ void displayTime(boolean fullUpdate)
 void setup()
 {
     Serial.begin(115200);
+    Serial.println("Booting");
     //initSetup();
     ttgo = TTGOClass::getWatch();
     ttgo->begin();
@@ -111,7 +112,8 @@ void setup()
 
     displayTime(true); // Our GUI to show the time
     ttgo->openBL(); // Turn on the backlight
-
+  
+    Serial.println("Creating managers");
     mapper = new ManagerMapper(ttgo, 10);
     mapper->setManager("SLP", (uintptr_t) new SleepManager(mapper));
 }
