@@ -42,6 +42,20 @@ void displayTime(boolean fullUpdate)
     mmonth = tnow.month;
     yyear = tnow.year;
 
+    int offset = 14;
+    if (mm < offset) {
+      mm = 60 - (offset - mm);
+      if (hh == 0) {
+        hh = 23;
+      }
+      else {
+        hh--;        
+      }      
+    }
+    else {
+      mm -= offset;
+    }
+
     ttgo->tft->setTextSize(1);
 
     if (fullUpdate) {
