@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <soc/rtc.h>
+#include <time.h>
 
 #include "config.h"
 
@@ -15,8 +16,6 @@ uint32_t targetTime = 0;       // for next 1 second display update
 
 uint8_t hh, mm, ss, mmonth, dday; // H, M, S variables
 uint16_t yyear; // Year is 16 bit int
-
-#include <time.h>
 
 void setMenuDisplay(int mSel);
 
