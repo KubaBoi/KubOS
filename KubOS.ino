@@ -2,6 +2,7 @@
 #include <soc/rtc.h>
 
 #include "config.h"
+
 #include "managerMapper.h"
 #include "sleepManager.h"
 #include "batteryManager.h"
