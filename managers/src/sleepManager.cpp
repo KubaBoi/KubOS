@@ -1,13 +1,13 @@
 #include "sleepManager.h"
 
-SleepManager::SleepManager(ManagerMapper *mappern) : Manager(mappern, "SLP") {}
+SleepManager::SleepManager(ManagerMapper *mappern) : Manager(mappern) {}
 
 /**
 Adds one to sleepTimer and decides about saving
 */
 void SleepManager::checkSleep()
 {
-	BatteryManager *btrMng = (BatteryManager *)mapper->getManager(1);
+	BatteryManager *btrMng = (BatteryManager *)mapper->getManager(BTR_MNG);
 	if (btrMng->isCharging())
 	{
 		wakeUp();

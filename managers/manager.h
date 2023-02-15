@@ -10,10 +10,9 @@ class Manager
 {
 public:
 	ManagerMapper *mapper;
-	char *code;
 
-	Manager(ManagerMapper *mappern, char *coden);
-	char *getCode();
+	Manager(ManagerMapper *mappern);
+	void update();
 };
 
 #endif

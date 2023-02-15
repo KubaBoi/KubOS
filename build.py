@@ -13,7 +13,7 @@ for root, dirs, files in os.walk("."):
             
 build_data = ""
 for header in headers:    
-    print(header[1])
+    #print(header[1])
     header_data = ""
     with open(os.path.join(*header), "r", encoding="utf-8") as f:
         header_data = f.read()

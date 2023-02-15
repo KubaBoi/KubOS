@@ -1,9 +1,8 @@
 #include "manager.h"
 
-Manager::Manager(ManagerMapper *mappern, char *coden)
+Manager::Manager(ManagerMapper *mappern)
 {
 	mapper = mappern;
-	code = coden;
 }
 
-char *Manager::getCode() { return code; }
+void Manager::update() {}

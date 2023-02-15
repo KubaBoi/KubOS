@@ -1,6 +1,6 @@
 #include "batteryManager.h"
 
-BatteryManager::BatteryManager(ManagerMapper *mappern) : Manager(mappern, "BTR") {}
+BatteryManager::BatteryManager(ManagerMapper *mappern) : Manager(mappern) {}
 
 bool BatteryManager::isCharging()
 {

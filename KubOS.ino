@@ -3,10 +3,13 @@
 #include <time.h>
 
 #include "config.h"
+#include "managers.h"
 
 #include "managerMapper.h"
 #include "sleepManager.h"
 #include "batteryManager.h"
+#include "timeManager.h"
+#include "touchManager.h"
 
 TTGOClass *ttgo;
 ManagerMapper *mapper;
@@ -27,33 +30,15 @@ void displayTime(boolean fullUpdate)
 	byte xpos = 40; // Stating position for the display
 	byte ypos = 90;
 
-	// Get the current data
-	RTC_Date tnow = ttgo->rtc->getDateTime();
+	TimeManager *tmmMng = (TimeManager *)mapper->getManager(TMM_MNG);
+	tmmMng->update();
 
-	hh = tnow.hour;
-	mm = tnow.minute;
-	ss = tnow.second;
-	dday = tnow.day;
-	mmonth = tnow.month;
-	yyear = tnow.year;
-
-	int offset = 14;
-	if (mm < offset)
-	{
-		mm = 60 - (offset - mm);
-		if (hh == 0)
-		{
-			hh = 23;
-		}
-		else
-		{
-			hh--;
-		}
-	}
-	else
-	{
-		mm -= offset;
-	}
+	ss = tmmMng->getSecond();
+	mm = tmmMng->getMinute();
+	hh = tmmMng->getHour();
+	dday = tmmMng->getDay();
+	mmonth = tmmMng->getMonth();
+	yyear = tmmMng->getYear();
 
 	ttgo->tft->setTextSize(1);
 
@@ -89,9 +74,9 @@ void displayTime(boolean fullUpdate)
 	ttgo->tft->setTextSize(3);
 	ttgo->tft->setCursor(10, 210);
 
-	ttgo->tft->print(mmonth);
-	ttgo->tft->print("/");
 	ttgo->tft->print(dday);
+	ttgo->tft->print("/");
+	ttgo->tft->print(mmonth);
 	ttgo->tft->print("/");
 	ttgo->tft->print(yyear);
 }
@@ -100,7 +85,7 @@ void setup()
 {
 	Serial.begin(115200);
 	Serial.println("Booting");
-	// initSetup();
+
 	ttgo = TTGOClass::getWatch();
 	ttgo->begin();
 	ttgo->tft->setTextFont(1);
@@ -109,24 +94,21 @@ void setup()
 	// LVGL is not used, this line is not needed
 	//  ttgo->lvgl_begin();
 
-	// Check if the RTC clock matches, if not, use compile time
-	ttgo->rtc->check();
-
-	// Synchronize time to system time
-	ttgo->rtc->syncToSystem();
+	Serial.println("Creating managers");
+	mapper = new ManagerMapper(ttgo, 10);
+	mapper->setManager((uintptr_t) new SleepManager(mapper));
+	mapper->setManager((uintptr_t) new BatteryManager(mapper));
+	mapper->setManager((uintptr_t) new TimeManager(mapper));
+	mapper->setManager((uintptr_t) new TouchManager(mapper));
 
 	displayTime(true); // Our GUI to show the time
 	ttgo->openBL();	   // Turn on the backlight
-
-	Serial.println("Creating managers");
-	mapper = new ManagerMapper(ttgo, 10);
-	mapper->setManager("SLP", (uintptr_t) new SleepManager(mapper));
-	mapper->setManager("BTR", (uintptr_t) new BatteryManager(mapper));
 }
 
 void loop()
 {
-	SleepManager *slpMng = (SleepManager *)mapper->getManager(0);
+	SleepManager *slpMng = (SleepManager *)mapper->getManager(SLP_MNG);
+	TouchManager *tchMng = (TouchManager *)mapper->getManager(TCH_MNG);
 
 	if (targetTime < millis())
 	{
@@ -137,9 +119,9 @@ void loop()
 	}
 
 	int16_t x, y;
-	if (ttgo->getTouch(x, y))
+	if (tchMng->isTouch(&x, &y))
 	{
-		while (ttgo->getTouch(x, y))
+		while (tchMng->isTouch(&x, &y))
 		{
 		} // wait for user to release
 		displayTime(true);

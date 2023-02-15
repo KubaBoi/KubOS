@@ -1,4 +1,5 @@
 #include "config.h"
+#include "managers.h"
 #include "managerMapper.h"
 #include "manager.h"
 #include "batteryManager.h"
@@ -13,7 +14,7 @@ border constants are stored in config.h
 class SleepManager : public Manager
 {
 public:
-	SleepManager(ManagerMapper *managerMapper);
+	SleepManager(ManagerMapper *managern);
 	void checkSleep();
 	void wakeUp();
 
