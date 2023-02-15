@@ -5,6 +5,7 @@
 
 #include "managerMapper.h"
 #include "sleepManager.h"
+#include "batteryManager.h"
 
 TTGOClass *ttgo;
 ManagerMapper* mapper;
@@ -14,11 +15,6 @@ uint32_t targetTime = 0;       // for next 1 second display update
 
 uint8_t hh, mm, ss, mmonth, dday; // H, M, S variables
 uint16_t yyear; // Year is 16 bit int
-
-// The basic Time Display GUI
-// if you are just updating the colon, fullUpdate =0
-// if you want to update the complete display, fullUpdate =1
-// This helps reduce flicker
 
 #include <time.h>
 
@@ -116,11 +112,13 @@ void setup()
     Serial.println("Creating managers");
     mapper = new ManagerMapper(ttgo, 10);
     mapper->setManager("SLP", (uintptr_t) new SleepManager(mapper));
+    mapper->setManager("BTR", (uintptr_t) new BatteryManager(mapper));
 }
 
 void loop()
 {
     SleepManager* slpMng = (SleepManager*) mapper->getManager(0);
+    
     if (targetTime < millis()) {
         targetTime = millis() + 1000;
         displayTime(ss == 0); // Call every second but only update time every minute

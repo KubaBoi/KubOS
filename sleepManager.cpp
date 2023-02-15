@@ -1,10 +1,16 @@
 #include "sleepManager.h"
 
-SleepManager::SleepManager(ManagerMapper* managerMapper) {
-  mapper = managerMapper;
-}
+SleepManager::SleepManager(ManagerMapper* mappern):Manager(mappern, "SLP") {}
 
+/**
+Adds one to sleepTimer and decides about saving
+*/
 void SleepManager::checkSleep() {
+  BatteryManager* btrMng = (BatteryManager*) mapper->getManager(1);
+  if (btrMng->isCharging()) {
+    wakeUp();
+  }
+
   sleepTimer++;
   if (sleepTimer == 1) {
     mapper->getTTGO()->setBrightness(100);
@@ -22,6 +28,9 @@ void SleepManager::checkSleep() {
   }
 }
 
+/**
+Resets sleepTimer
+*/
 void SleepManager::wakeUp() {
   sleepTimer = 0;
 }
