@@ -10,14 +10,15 @@
 Class controls sleep of watches for battery saving
 border constants are stored in config.h
 */
-class SleepManager : public Manager {
+class SleepManager : public Manager
+{
 public:
-  SleepManager(ManagerMapper* managerMapper);
-  void checkSleep();
-  void wakeUp();
+	SleepManager(ManagerMapper *managerMapper);
+	void checkSleep();
+	void wakeUp();
 
 private:
-  unsigned int sleepTimer = 0;
+	unsigned int sleepTimer = 0;
 };
 
 #endif

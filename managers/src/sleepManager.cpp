@@ -1,36 +1,43 @@
 #include "sleepManager.h"
 
-SleepManager::SleepManager(ManagerMapper* mappern):Manager(mappern, "SLP") {}
+SleepManager::SleepManager(ManagerMapper *mappern) : Manager(mappern, "SLP") {}
 
 /**
 Adds one to sleepTimer and decides about saving
 */
-void SleepManager::checkSleep() {
-  BatteryManager* btrMng = (BatteryManager*) mapper->getManager(1);
-  if (btrMng->isCharging()) {
-    wakeUp();
-  }
+void SleepManager::checkSleep()
+{
+	BatteryManager *btrMng = (BatteryManager *)mapper->getManager(1);
+	if (btrMng->isCharging())
+	{
+		wakeUp();
+	}
 
-  sleepTimer++;
-  if (sleepTimer == 1) {
-    mapper->getTTGO()->setBrightness(100);
-    mapper->getTTGO()->openBL();
-  }
-  else if (sleepTimer == SHADE_TIME) {
-    mapper->getTTGO()->setBrightness(50);
-  }
-  else if (sleepTimer == SCREEN_TIME) {
-    mapper->getTTGO()->closeBL();
-  }
-  else if (sleepTimer >= SLEEP_TIME) {
-    sleepTimer = 0;
-    mapper->getTTGO()->shutdown();
-  }
+	sleepTimer++;
+	if (sleepTimer == 1)
+	{
+		mapper->getTTGO()->setBrightness(100);
+		mapper->getTTGO()->openBL();
+	}
+	else if (sleepTimer == SHADE_TIME)
+	{
+		mapper->getTTGO()->setBrightness(50);
+	}
+	else if (sleepTimer == SCREEN_TIME)
+	{
+		mapper->getTTGO()->closeBL();
+	}
+	else if (sleepTimer >= SLEEP_TIME)
+	{
+		sleepTimer = 0;
+		mapper->getTTGO()->shutdown();
+	}
 }
 
 /**
 Resets sleepTimer
 */
-void SleepManager::wakeUp() {
-  sleepTimer = 0;
+void SleepManager::wakeUp()
+{
+	sleepTimer = 0;
 }

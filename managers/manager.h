@@ -6,13 +6,14 @@
 /**
 Class for manager inheritance
 */
-class Manager {
+class Manager
+{
 public:
-  ManagerMapper* mapper;
-  char* code;
-  
-  Manager(ManagerMapper* mappern, char* coden);
-  char* getCode();
+	ManagerMapper *mapper;
+	char *code;
+
+	Manager(ManagerMapper *mappern, char *coden);
+	char *getCode();
 };
 
 #endif
