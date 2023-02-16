@@ -14,13 +14,8 @@
 TTGOClass *ttgo;
 ManagerMapper *mapper;
 
-uint32_t targetTime = 0; // for next 1 second display update
-// uint32_t clockUpTime = 0;      // track the time the clock is displayed
-
 uint8_t hh, mm, ss, mmonth, dday; // H, M, S variables
 uint16_t yyear;					  // Year is 16 bit int
-
-void setMenuDisplay(int mSel);
 
 byte xcolon = 0; // location of the colon
 
@@ -109,12 +104,11 @@ void loop()
 {
 	SleepManager *slpMng = (SleepManager *)mapper->getManager(SLP_MNG);
 	TouchManager *tchMng = (TouchManager *)mapper->getManager(TCH_MNG);
+	TimeManager *tmmMng = (TimeManager *)mapper->getManager(TMM_MNG);
 
-	if (targetTime < millis())
+	if (tmmMng->isSecond())
 	{
-		targetTime = millis() + 1000;
-		displayTime(ss == 0); // Call every second but only update time every minute
-
+		displayTime(ss == 0);
 		slpMng->checkSleep();
 	}
 

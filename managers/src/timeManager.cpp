@@ -25,6 +25,16 @@ void TimeManager::update()
     else minute -= minuteOffset;
 }
 
+bool TimeManager::isSecond() 
+{
+    if (targetTime < millis()) 
+    {
+        targetTime = millis() + 1000;
+        return true;
+    }
+    return false;
+}
+
 uint8_t TimeManager::getSecond() { return second; }
 uint8_t TimeManager::getMinute() { return minute; }
 uint8_t TimeManager::getHour() { return hour; }
