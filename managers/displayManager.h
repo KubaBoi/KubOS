@@ -9,7 +9,7 @@
 
 struct fnt
 {
-    uint16_t textColor, bgColor;
+    uint16_t color, bgColor;
     uint8_t size, font;
 };
 
@@ -41,37 +41,17 @@ public:
     // Setter for default font as fnt struct
     void setDefaultFont(fnt *font);
 
-    /**
-     * Return value of color
-     */
+    // Return value of color rgb888 -> rgb565
     uint16_t getRGB(uint8_t red, uint8_t green, uint8_t blue);
 
-    /**
-     * Clear display with backgroundColor
-     */
+    // Clear display with backgroundColor
     void clear();
 
-    /**
-     * Print test at coordinates x, y
-     */
+    // Print test at coordinates x, y
     void printText(char *text, byte x, byte y);
 
-    /**
-     * Print text with color
-     * at coordinates x, y
-     */
-    void printText(char *text, byte x, byte y, uint16_t color, uint8_t size);
-
-    /**
-     * Print text with color and bgColor
-     * at coordinates x, y
-     */
-    void printText(char *text, byte x, byte y, uint16_t color, uint16_t bgColor, uint8_t size);
-
-    /**
-     * Print text with parameters defined in font
-     */
-    void printText(char *text, byte x, byte y, fnt font);
+    // Print text with parameters defined in font
+    void printText(char *text, byte x, byte y, fnt *font);
 
 private:
     TFT_eSPI *tft;

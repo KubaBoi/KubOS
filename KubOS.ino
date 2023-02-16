@@ -29,6 +29,7 @@ void displayTime(boolean fullUpdate)
 	byte xpos = 40; // Stating position for the display
 	byte ypos = 90;
 
+	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
 	TimeManager *tmmMng = (TimeManager *)mapper->getManager(TMM_MNG);
 	tmmMng->update();
 
@@ -39,7 +40,9 @@ void displayTime(boolean fullUpdate)
 	mmonth = tmmMng->getMonth();
 	yyear = tmmMng->getYear();
 
-	ttgo->tft->setTextSize(1);
+	dspMng->printText("Ahoj :)", xpos, ypos);
+
+/*	ttgo->tft->setTextSize(1);
 
 	if (fullUpdate)
 	{
@@ -77,7 +80,7 @@ void displayTime(boolean fullUpdate)
 	ttgo->tft->print("/");
 	ttgo->tft->print(mmonth);
 	ttgo->tft->print("/");
-	ttgo->tft->print(yyear);
+	ttgo->tft->print(yyear);*/
 }
 
 void setup()
@@ -98,7 +101,7 @@ void loop()
 	TimeManager *tmmMng = (TimeManager *)mapper->getManager(TMM_MNG);
 	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
 
-	/*if (tmmMng->isSecond())
+	if (tmmMng->isSecond())
 	{
 		displayTime(ss == 0);
 		slpMng->checkSleep();
@@ -112,8 +115,6 @@ void loop()
 		} // wait for user to release
 		displayTime(true);
 		slpMng->wakeUp();
-	}*/
+	}
 
-	dspMng->setBGColor(CYAN_16);
-	dspMng->clear();
 }
