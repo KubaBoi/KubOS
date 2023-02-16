@@ -2,10 +2,6 @@
 
 TouchManager::TouchManager(ManagerMapper *mappern) : Manager(mappern) {}
 
-void TouchManager::update()
-{
-}
-
 bool TouchManager::isTouch(int16_t *xn, int16_t *yn)
 {
     bool ret = mapper->getTTGO()->getTouch(x, y);
