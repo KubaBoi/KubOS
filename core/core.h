@@ -6,6 +6,7 @@
 #include "batteryManager.h"
 #include "timeManager.h"
 #include "touchManager.h"
+#include "displayManager.h"
 
 #ifndef CORE_H
 #define CORE_H

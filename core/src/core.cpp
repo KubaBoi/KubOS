@@ -18,6 +18,7 @@ void Core::initManagers()
 	mapper->setManager((uintptr_t) new BatteryManager(mapper));
 	mapper->setManager((uintptr_t) new TimeManager(mapper));
 	mapper->setManager((uintptr_t) new TouchManager(mapper));
+	mapper->setManager((uintptr_t) new DisplayManager(mapper));
 }
 
 TTGOClass *Core::getTTGO() { return ttgo; }

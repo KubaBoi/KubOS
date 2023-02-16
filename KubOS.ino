@@ -11,6 +11,7 @@
 #include "batteryManager.h"
 #include "timeManager.h"
 #include "touchManager.h"
+#include "displayManager.h"
 
 Core *core;
 TTGOClass *ttgo;
@@ -98,8 +99,9 @@ void loop()
 	SleepManager *slpMng = (SleepManager *)mapper->getManager(SLP_MNG);
 	TouchManager *tchMng = (TouchManager *)mapper->getManager(TCH_MNG);
 	TimeManager *tmmMng = (TimeManager *)mapper->getManager(TMM_MNG);
+	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
 
-	if (tmmMng->isSecond())
+	/*if (tmmMng->isSecond())
 	{
 		displayTime(ss == 0);
 		slpMng->checkSleep();
@@ -113,5 +115,8 @@ void loop()
 		} // wait for user to release
 		displayTime(true);
 		slpMng->wakeUp();
-	}
+	}*/
+
+	dspMng->setBGColor(dspMng->getRGB(255, 0, 0));
+	dspMng->clear();
 }
