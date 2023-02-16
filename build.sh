@@ -9,7 +9,7 @@ else
     python build.py
     echo "Compilation..."
     mkdir -p ./build
-    if arduino-cli compile --fqbn esp32:esp32:nodemcu-32s $INO_NAME --output-dir build
+    if arduino-cli compile --fqbn esp32:esp32:nodemcu-32s $INO_NAME
     then
         echo "Uploading..."
         arduino-cli upload -p $PORT --fqbn esp32:esp32:nodemcu-32s $INO_NAME
