@@ -4,6 +4,9 @@
 #ifndef BATTERY_MANAGER_H
 #define BATTERY_MANAGER_H
 
+/**
+ * Class for getting infomartions about power management
+*/
 class BatteryManager : public Manager
 {
 public:

@@ -11,6 +11,10 @@ class TimeManager : public Manager
 {
 public:
     TimeManager(ManagerMapper *managern);
+
+    /*
+     * Update time values from RTC
+     */
     void update();
     uint8_t getSecond();
     uint8_t getMinute();
@@ -22,7 +26,7 @@ public:
 private:
     uint8_t second, minute, hour, day, month;
     uint16_t year;
-    uint8_t minuteOffset = 14; 
+    uint8_t minuteOffset = 14; // minute value from calibrating time
 };
 
 #endif

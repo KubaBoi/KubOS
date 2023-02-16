@@ -2,9 +2,6 @@
 
 SleepManager::SleepManager(ManagerMapper *mappern) : Manager(mappern) {}
 
-/**
-Adds one to sleepTimer and decides about saving
-*/
 void SleepManager::checkSleep()
 {
 	BatteryManager *btrMng = (BatteryManager *)mapper->getManager(BTR_MNG);
@@ -34,9 +31,6 @@ void SleepManager::checkSleep()
 	}
 }
 
-/**
-Resets sleepTimer
-*/
 void SleepManager::wakeUp()
 {
 	sleepTimer = 0;

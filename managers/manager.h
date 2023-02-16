@@ -4,8 +4,8 @@
 #define MANAGER_H
 
 /**
-Class for manager inheritance
-*/
+ * Class for manager inheritance
+ */
 class Manager
 {
 public:
