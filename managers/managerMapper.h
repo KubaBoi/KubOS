@@ -6,7 +6,7 @@
 
 /**
  * Class containing list of addresses of managers and instance of ttgo
- * indexes table is stored in managers/managers.h
+ * indexes table is stored in config/managers.h
  */
 class ManagerMapper
 {
@@ -20,9 +20,7 @@ public:
 	 */
 	uintptr_t getManager(unsigned int index);
 
-	/**
-	 * Return count of stored managers
-	 */
+	// Return count of stored managers
 	unsigned int getManagerCount();
 
 	/**

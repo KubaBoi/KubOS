@@ -1,27 +1,45 @@
 #include "config.h"
+#include "colors.h"
+
 #include "manager.h"
 #include "managerMapper.h"
 
 #ifndef DISPLAY_MANAGER_H
 #define DISPLAY_MANAGER_H
 
+struct fnt
+{
+    uint16_t textColor, bgColor;
+    uint8_t size, font;
+};
+
 /**
  * Class controlling simple GUI
+ * colors are defined in config/colors.h
  */
 class DisplayManager : public Manager
 {
 public:
     DisplayManager(ManagerMapper *managern);
+    ~DisplayManager();
 
-    /**
-     * Return pointer to TFT
-     */
+    // Return pointer to TFT
     TFT_eSPI *getTFT();
+    // Return pointer to defaultFont
+    fnt *getDefaultFont();
+    // Reseter of default font
+    void resetDefaultFont();
 
-    /**
-     * Set background color
-     */
+    // Setter for default background
     void setBGColor(uint16_t bgColor);
+    // Setter for default color
+    void setColor(uint16_t color);
+    // Setter for default size
+    void setSize(uint8_t size);
+    // Setter for default font
+    void setFont(uint8_t font);
+    // Setter for default font as fnt struct
+    void setDefaultFont(fnt *font);
 
     /**
      * Return value of color
@@ -34,20 +52,31 @@ public:
     void clear();
 
     /**
+     * Print test at coordinates x, y
+     */
+    void printText(char *text, byte x, byte y);
+
+    /**
      * Print text with color
      * at coordinates x, y
      */
-    void printText(char *text, byte x, byte y, uint16_t color);
+    void printText(char *text, byte x, byte y, uint16_t color, uint8_t size);
 
     /**
      * Print text with color and bgColor
      * at coordinates x, y
      */
-    void printText(char *text, byte x, byte y, uint16_t color, uint16_t bgColor);
+    void printText(char *text, byte x, byte y, uint16_t color, uint16_t bgColor, uint8_t size);
+
+    /**
+     * Print text with parameters defined in font
+     */
+    void printText(char *text, byte x, byte y, fnt font);
 
 private:
     TFT_eSPI *tft;
-    uint16_t backgroundColor = 0x0000;
+    fnt *defaultFont; // default font which is used
+    fnt *deffnt;      // pointer to defaultFont address
 };
 
 #endif

@@ -16,14 +16,10 @@ class SleepManager : public Manager
 public:
 	SleepManager(ManagerMapper *managern);
 
-	/**
-	 * Adds one to sleepTimer and decides about saving
-	 */
+	// Adds one to sleepTimer and decides about saving
 	void checkSleep();
 
-	/**
-	 * Reset sleepTimer
-	 */
+	// Reset sleepTimer
 	void wakeUp();
 
 private:

@@ -18,12 +18,20 @@
 class Core
 {
 public:
-    Core();
+    /**
+     * If `doInitialization` = `true`
+     * TTGO and Managers are intialized in constructor
+     */
+    Core(bool doInitialization = true);
 
+    // Initialization of TTGOClass
     void initTTGO();
+    // Initialization of mapper and managers
     void initManagers();
 
+    // Getter of TTGOClass
     TTGOClass *getTTGO();
+    // Getter of ManagerMapper
     ManagerMapper *getMapper();
 
 private:

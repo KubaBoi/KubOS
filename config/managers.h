@@ -1,5 +1,5 @@
 /**
- * Table of manager indexes in ManagerMapper
+ * Names of manager indexes in ManagerMapper
 */
 #define SLP_MNG 0 // SleepManager
 #define BTR_MNG 1 // BatteryManager

@@ -15,14 +15,10 @@ class TimeManager : public Manager
 public:
     TimeManager(ManagerMapper *managern);
 
-    /**
-     * Update time values from RTC
-     */
+    // Update time values from RTC
     void update();
 
-    /**
-     * Return true every second
-     */
+    // Return true every second
     bool isSecond();
 
     uint8_t getSecond();

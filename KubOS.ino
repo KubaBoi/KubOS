@@ -3,6 +3,7 @@
 #include <time.h>
 
 #include "config.h"
+#include "colors.h"
 #include "managers.h"
 #include "core.h"
 
@@ -84,13 +85,9 @@ void setup()
 	Serial.begin(115200);
 
 	core = new Core();
-	core->initTTGO();
-	core->initManagers();
 
 	ttgo = core->getTTGO();
 	mapper = core->getMapper();
-
-	displayTime(true); // Our GUI to show the time
 	ttgo->openBL();	   // Turn on the backlight
 }
 
@@ -117,6 +114,6 @@ void loop()
 		slpMng->wakeUp();
 	}*/
 
-	dspMng->setBGColor(dspMng->getRGB(255, 0, 0));
+	dspMng->setBGColor(CYAN_16);
 	dspMng->clear();
 }

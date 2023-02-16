@@ -1,14 +1,16 @@
 #include "core.h"
 
-Core::Core() {}
+Core::Core(bool doInitialization) 
+{
+	if (!doInitialization) return;
+	initTTGO();
+	initManagers();
+}
 
 void Core::initTTGO()
 {
     ttgo = TTGOClass::getWatch();
 	ttgo->begin();
-	ttgo->tft->setTextFont(1);
-	ttgo->tft->fillScreen(TFT_BLACK);
-	ttgo->tft->setTextColor(TFT_YELLOW, TFT_BLACK);
 }
 
 void Core::initManagers()
