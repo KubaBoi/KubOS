@@ -2,17 +2,18 @@
 
 DisplayManager::DisplayManager(ManagerMapper *mappern) : Manager(mappern)
 {
+    defaultFont = (fnt *)malloc(sizeof(fnt));
     defaultFont->bgColor = BLACK_16;
     defaultFont->color = WHITE_16;
     defaultFont->size = 5;
     defaultFont->font = 1;
-    //deffnt = defaultFont;
+    deffnt = defaultFont;
 
     tft = mappern->getTTGO()->tft;
-    tft->fillScreen(0x0000);
+    tft->fillScreen(BLACK_16);
 }
 
-//DisplayManager::~DisplayManager() { delete (deffnt); }
+DisplayManager::~DisplayManager() { delete (deffnt); }
 
 TFT_eSPI *DisplayManager::getTFT() { return tft; }
 fnt *DisplayManager::getDefaultFont() { return defaultFont; }

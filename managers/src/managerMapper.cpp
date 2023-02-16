@@ -1,10 +1,11 @@
 #include "managerMapper.h"
 
-ManagerMapper::ManagerMapper(TTGOClass *ttgoClass, unsigned int managerCount)
+ManagerMapper::ManagerMapper(TTGOClass *ttgoClass, Logger *loggern, unsigned int managerCount)
 {
 	addresses = (uintptr_t *)malloc(sizeof(uintptr_t) * managerCount);
 	ttgo = ttgoClass;
 	manCount = managerCount;
+	logger = loggern;
 }
 
 TTGOClass *ManagerMapper::getTTGO() { return ttgo; }
@@ -20,3 +21,5 @@ void ManagerMapper::setManager(uintptr_t addr)
 {
 	addresses[manIter++] = addr;
 }
+
+Logger *ManagerMapper::getLogger() { return logger; }

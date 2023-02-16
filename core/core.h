@@ -1,5 +1,6 @@
 #include <stdint.h>
 
+#include "logger.h"
 #include "config.h"
 #include "managerMapper.h"
 #include "sleepManager.h"
@@ -37,6 +38,7 @@ public:
 private:
     TTGOClass *ttgo;
     ManagerMapper *mapper;
+    Logger *logger;
 };
 
 #endif

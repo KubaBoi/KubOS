@@ -6,4 +6,7 @@
 #define SCREEN_TIME 30 // in seconds
 #define SLEEP_TIME 60 // in seconds
 
+#define LOGGER_SIZE 256 // buffer size
+#define LOGGER_LENGTH 100 // line length
+
 #include <LilyGoWatch.h>

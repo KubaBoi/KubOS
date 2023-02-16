@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "config.h"
+#include "logger.h"
 
 #ifndef MANAGER_MAPPER_H
 #define MANAGER_MAPPER_H
@@ -11,7 +12,7 @@
 class ManagerMapper
 {
 public:
-	ManagerMapper(TTGOClass *ttgoClass, unsigned int managerCount);
+	ManagerMapper(TTGOClass *ttgoClass, Logger *loggern, unsigned int managerCount);
 	TTGOClass *getTTGO();
 
 	/**
@@ -29,11 +30,15 @@ public:
 	 */
 	void setManager(uintptr_t addr);
 
+	// Return logger
+	Logger *getLogger();
+
 private:
 	uintptr_t *addresses;	  // list of addresses of managers
 	unsigned int manCount;	  // size of addresses
 	unsigned int manIter = 0; // count of stored managers
 	TTGOClass *ttgo;		  // pointer to watch object
+	Logger *logger;			  // logger
 };
 
 #endif

@@ -1,6 +1,9 @@
 #include "batteryManager.h"
 
-BatteryManager::BatteryManager(ManagerMapper *mappern) : Manager(mappern) {}
+BatteryManager::BatteryManager(ManagerMapper *mappern) : Manager(mappern) 
+{
+	//logger->log("...Battery Manager");
+}
 
 bool BatteryManager::isCharging()
 {

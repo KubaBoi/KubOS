@@ -5,6 +5,7 @@
 #include "config.h"
 #include "colors.h"
 #include "managers.h"
+#include "logger.h"
 #include "core.h"
 
 #include "managerMapper.h"
@@ -40,9 +41,10 @@ void displayTime(boolean fullUpdate)
 	mmonth = tmmMng->getMonth();
 	yyear = tmmMng->getYear();
 
-	dspMng->printText("Ahoj :)", xpos, ypos);
+	dspMng->printText("A", 0, ypos);
+	dspMng->printText(mapper->getLogger()->getLastLog(), xpos, ypos);
 
-/*	ttgo->tft->setTextSize(1);
+	/*ttgo->tft->setTextSize(1);
 
 	if (fullUpdate)
 	{
@@ -91,7 +93,6 @@ void setup()
 
 	ttgo = core->getTTGO();
 	mapper = core->getMapper();
-	ttgo->openBL();	   // Turn on the backlight
 }
 
 void loop()
@@ -116,5 +117,4 @@ void loop()
 		displayTime(true);
 		slpMng->wakeUp();
 	}
-
 }

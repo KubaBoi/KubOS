@@ -2,13 +2,19 @@
 
 Core::Core(bool doInitialization) 
 {
-	if (!doInitialization) return;
+	logger = new Logger();
+	if (!doInitialization) 
+	{
+		logger->log("Skipping inicialization");
+		return;
+	}
 	initTTGO();
 	initManagers();
 }
 
 void Core::initTTGO()
 {
+	logger->log("Initializating TTGOClass");
     ttgo = TTGOClass::getWatch();
 	ttgo->begin();
 	ttgo->openBL();
@@ -16,7 +22,9 @@ void Core::initTTGO()
 
 void Core::initManagers()
 {
-    mapper = new ManagerMapper(ttgo, 10);
+	//logger->log("Initializating Manager Mapper");
+    mapper = new ManagerMapper(ttgo, logger, 10);
+	//logger->log("Initializing managers:");
 	mapper->setManager((uintptr_t) new SleepManager(mapper));
 	mapper->setManager((uintptr_t) new BatteryManager(mapper));
 	mapper->setManager((uintptr_t) new TimeManager(mapper));

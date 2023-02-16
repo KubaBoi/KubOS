@@ -21,7 +21,7 @@ class DisplayManager : public Manager
 {
 public:
     DisplayManager(ManagerMapper *managern);
-    //~DisplayManager();
+    ~DisplayManager();
 
     // Return pointer to TFT
     TFT_eSPI *getTFT();
