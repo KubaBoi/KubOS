@@ -4,6 +4,7 @@
 
 #include "config.h"
 #include "managers.h"
+#include "core.h"
 
 #include "managerMapper.h"
 #include "sleepManager.h"
@@ -11,6 +12,7 @@
 #include "timeManager.h"
 #include "touchManager.h"
 
+Core *core;
 TTGOClass *ttgo;
 ManagerMapper *mapper;
 
@@ -79,22 +81,13 @@ void displayTime(boolean fullUpdate)
 void setup()
 {
 	Serial.begin(115200);
-	Serial.println("Booting");
 
-	ttgo = TTGOClass::getWatch();
-	ttgo->begin();
-	ttgo->tft->setTextFont(1);
-	ttgo->tft->fillScreen(TFT_BLACK);
-	ttgo->tft->setTextColor(TFT_YELLOW, TFT_BLACK); // Note: the new fonts do not draw the background colour
-	// LVGL is not used, this line is not needed
-	//  ttgo->lvgl_begin();
+	core = new Core();
+	core->initTTGO();
+	core->initManagers();
 
-	Serial.println("Creating managers");
-	mapper = new ManagerMapper(ttgo, 10);
-	mapper->setManager((uintptr_t) new SleepManager(mapper));
-	mapper->setManager((uintptr_t) new BatteryManager(mapper));
-	mapper->setManager((uintptr_t) new TimeManager(mapper));
-	mapper->setManager((uintptr_t) new TouchManager(mapper));
+	ttgo = core->getTTGO();
+	mapper = core->getMapper();
 
 	displayTime(true); // Our GUI to show the time
 	ttgo->openBL();	   // Turn on the backlight
