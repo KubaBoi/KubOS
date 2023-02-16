@@ -15,6 +15,8 @@
 #include "touchManager.h"
 #include "displayManager.h"
 
+#include "cmd.h"
+
 Core *core;
 TTGOClass *ttgo;
 ManagerMapper *mapper;
@@ -93,6 +95,8 @@ void setup()
 
 	ttgo = core->getTTGO();
 	mapper = core->getMapper();
+
+	core->startApp(new CMD());
 }
 
 void loop()
@@ -114,7 +118,10 @@ void loop()
 		while (tchMng->isTouch(&x, &y))
 		{
 		} // wait for user to release
-		displayTime(true);
+		//displayTime(true);
 		slpMng->wakeUp();
 	}
+
+	core->updateApps();
+	core->drawApps();
 }

@@ -6,10 +6,9 @@ Logger::Logger()
 
 void Logger::log(char *msg)
 {
-    strncpy(addresses[++iterator], msg, LOGGER_LENGTH);
+    strncpy(logs[++iterator], msg, LOGGER_LENGTH);
 }
 
-char *Logger::getLastLog()
-{
-    return addresses[iterator];
-}
+uint8_t Logger::getIterator() { return iterator; }
+
+char *Logger::getLastLog(uint8_t offSet) { return logs[iterator - offSet]; }

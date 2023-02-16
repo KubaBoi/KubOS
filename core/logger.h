@@ -19,10 +19,14 @@ public:
     // Save `msg` into memory
     void log(char *msg);
 
-    char *getLastLog();
+    // Return iterator
+    uint8_t getIterator();
+
+    // Return last `offSet` log
+    char *getLastLog(uint8_t offSet = 0);
 
 private:
-    char addresses[LOGGER_LENGTH][LOGGER_SIZE];
+    char logs[LOGGER_LENGTH][LOGGER_SIZE];
     uint8_t iterator = 0; // index of last message
 };
 

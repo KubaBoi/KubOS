@@ -9,12 +9,20 @@
 #include "touchManager.h"
 #include "displayManager.h"
 
+#include "app.h"
+
 #ifndef CORE_H
 #define CORE_H
 
+struct appObject
+{
+    App *app;
+    appObject *next, *prev;
+};
+
 /**
- * Main class initializating managers, mapper
- * and TTGOClass
+ * Main class initializating managers, mapper, TTGOClass
+ * and for managing apps
  */
 class Core
 {
@@ -35,7 +43,21 @@ public:
     // Getter of ManagerMapper
     ManagerMapper *getMapper();
 
+    // Start the app
+    void startApp(App *app);
+
+    // Close the app
+    void closeApp(App *app);
+
+    // Update all apps
+    void updateApps();
+
+    // Draw all apps
+    void drawApps();
+
 private:
+    appObject *runningApps = nullptr;
+
     TTGOClass *ttgo;
     ManagerMapper *mapper;
     Logger *logger;
