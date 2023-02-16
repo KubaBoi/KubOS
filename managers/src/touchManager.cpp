@@ -1,6 +1,9 @@
 #include "touchManager.h"
 
-TouchManager::TouchManager(ManagerMapper *mappern) : Manager(mappern) {}
+TouchManager::TouchManager(ManagerMapper *mappern) : Manager(mappern) 
+{
+    logger->log("...Touch Manager");
+}
 
 bool TouchManager::isTouch(int16_t *xn, int16_t *yn)
 {

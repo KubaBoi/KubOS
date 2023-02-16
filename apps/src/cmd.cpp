@@ -8,10 +8,9 @@ void CMD::update()
 
 void CMD::draw(DisplayManager *dspMng)
 {
-    logger->log("DRAW");
-    /*dspMng->clear();
+    dspMng->clear();
     for (byte i = 0; i < 20; i++)
     {
         dspMng->printText(logger->getLastLog(i), 0, i * 10);
-    }*/
+    }
 }

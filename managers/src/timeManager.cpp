@@ -2,6 +2,7 @@
 
 TimeManager::TimeManager(ManagerMapper *managern) : Manager(managern)
 {
+    logger->log("...Time Manager");
     managern->getTTGO()->rtc->check();
     managern->getTTGO()->rtc->syncToSystem();
 }

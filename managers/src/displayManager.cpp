@@ -2,10 +2,11 @@
 
 DisplayManager::DisplayManager(ManagerMapper *mappern) : Manager(mappern)
 {
+    logger->log("...Display Manager");
     defaultFont = (fnt *)malloc(sizeof(fnt));
     defaultFont->bgColor = BLACK_16;
     defaultFont->color = WHITE_16;
-    defaultFont->size = 10;
+    defaultFont->size = 1;
     defaultFont->font = 1;
     deffnt = defaultFont;
 

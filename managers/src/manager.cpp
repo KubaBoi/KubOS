@@ -3,8 +3,7 @@
 Manager::Manager(ManagerMapper *mappern) 
 { 
     mapper = mappern;
-    //logger = mapper->getLogger();
-    //logger->log(typeid(this).name());
+    logger = mapper->getLogger();
 }
 
 void Manager::update() {}

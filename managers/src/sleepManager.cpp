@@ -1,6 +1,9 @@
 #include "sleepManager.h"
 
-SleepManager::SleepManager(ManagerMapper *mappern) : Manager(mappern) {}
+SleepManager::SleepManager(ManagerMapper *mappern) : Manager(mappern) 
+{
+	logger->log("...Sleep Manager");
+}
 
 void SleepManager::checkSleep()
 {

@@ -108,8 +108,10 @@ void loop()
 
 	if (tmmMng->isSecond())
 	{
-		displayTime(ss == 0);
+		//displayTime(ss == 0);
 		slpMng->checkSleep();
+		core->updateApps();
+		core->drawApps();
 	}
 
 	int16_t x, y;
@@ -121,7 +123,4 @@ void loop()
 		//displayTime(true);
 		slpMng->wakeUp();
 	}
-
-	core->updateApps();
-	core->drawApps();
 }

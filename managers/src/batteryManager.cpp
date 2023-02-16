@@ -2,7 +2,7 @@
 
 BatteryManager::BatteryManager(ManagerMapper *mappern) : Manager(mappern) 
 {
-	//logger->log("...Battery Manager");
+	logger->log("...Battery Manager");
 }
 
 bool BatteryManager::isCharging()
