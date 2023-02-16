@@ -9,6 +9,12 @@
             "name": "Build and upload",
             "request": "launch",
             "type": "node-terminal"
+        },
+        {
+            "command": "./build.sh -u",
+            "name": "Upload",
+            "request": "launch",
+            "type": "node-terminal"    
         }
     ]
 }

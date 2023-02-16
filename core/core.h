@@ -24,7 +24,7 @@ public:
      */
     Core(bool doInitialization = true);
 
-    // Initialization of TTGOClass
+    // Initialization of TTGOClass and turning backlights on
     void initTTGO();
     // Initialization of mapper and managers
     void initManagers();

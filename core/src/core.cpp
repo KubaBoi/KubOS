@@ -11,6 +11,7 @@ void Core::initTTGO()
 {
     ttgo = TTGOClass::getWatch();
 	ttgo->begin();
+	ttgo->openBL();
 }
 
 void Core::initManagers()
