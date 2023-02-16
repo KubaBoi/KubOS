@@ -7,6 +7,9 @@
 #ifndef TIME_MANAGER_H
 #define TIME_MANAGER_H
 
+/**
+ * Class gets data from RTC module and serves them as integers
+ */
 class TimeManager : public Manager
 {
 public:

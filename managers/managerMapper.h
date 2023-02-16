@@ -14,28 +14,28 @@ public:
 	ManagerMapper(TTGOClass *ttgoClass, unsigned int managerCount);
 	TTGOClass *getTTGO();
 
-	/*
-	Return address of manager at given index
-	address need to be converted into wanted class type of managers
-	*/
+	/**
+	 * Return address of manager at given index
+	 * address need to be converted into wanted class type of managers
+	 */
 	uintptr_t getManager(unsigned int index);
 
-	/*
-	Return count of stored managers
-	*/
+	/**
+	 * Return count of stored managers
+	 */
 	unsigned int getManagerCount();
 
-	/*
-	Creates manager
-	addr - is address of manager class object
-	*/
+	/**
+	 * Creates manager
+	 * addr - is address of manager class object
+	 */
 	void setManager(uintptr_t addr);
 
 private:
-	uintptr_t *addresses; // list of addresses of managers
-	unsigned int manCount; // size of addresses
+	uintptr_t *addresses;	  // list of addresses of managers
+	unsigned int manCount;	  // size of addresses
 	unsigned int manIter = 0; // count of stored managers
-	TTGOClass *ttgo; // pointer to watch object
+	TTGOClass *ttgo;		  // pointer to watch object
 };
 
 #endif

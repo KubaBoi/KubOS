@@ -5,8 +5,8 @@
 #define BATTERY_MANAGER_H
 
 /**
- * Class for getting infomartions about power management
-*/
+ * Class for getting informations about power management
+ */
 class BatteryManager : public Manager
 {
 public:

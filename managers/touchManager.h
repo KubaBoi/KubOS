@@ -4,13 +4,16 @@
 #ifndef TOUCH_MANAGER_H
 #define TOUCH_MANAGER_H
 
+/**
+ * Class get data of touch of display
+ */
 class TouchManager : public Manager
 {
 public:
     TouchManager(ManagerMapper *mappern);
     void update();
 
-    /*
+    /**
      * Return true if display is touched and fill xn and yn
      * with coordinates of touch
      */
