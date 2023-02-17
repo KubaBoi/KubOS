@@ -46,17 +46,20 @@ public:
     // Start the app
     void startApp(App *app);
 
-    // Close the app
-    void closeApp(App *app);
+    // Close running app and set prev app as running
+    void closeApp();
 
     // Update all apps
     void updateApps();
+
+    // Update all apps even if they are on backgound
+    void updateBackground();
 
     // Draw all apps
     void drawApps();
 
 private:
-    appObject *runningApps = nullptr;
+    appObject *runningApp = nullptr;
 
     TTGOClass *ttgo;
     ManagerMapper *mapper;

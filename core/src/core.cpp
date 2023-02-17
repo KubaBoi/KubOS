@@ -3,6 +3,8 @@
 Core::Core(bool doInitialization)
 {
 	logger = new Logger();
+	logger->log("KubOS");
+	logger->log(VERSION);
 	if (!doInitialization)
 	{
 		logger->log("Skipping inicialization");
@@ -38,50 +40,71 @@ ManagerMapper *Core::getMapper() { return mapper; }
 
 void Core::startApp(App *app)
 {
-	if (runningApps)
+	if (runningApp)
 	{
 		appObject *newApp = (appObject *)malloc(sizeof(appObject));
-		newApp->next = runningApps->next; // next of new app is next of runningApps
-		runningApps->next->prev = newApp; // prev of prev of next is new app
-		newApp->prev = runningApps;		  // prev of new app is runningApps
-		runningApps = newApp;			  // runningApps is now new app
+		newApp->next = runningApp->next; // next of new app is next of runningApp
+		runningApp->next->prev = newApp; // prev of prev of next is new app
+		newApp->prev = runningApp;		 // prev of new app is runningApp
+		runningApp = newApp;			 // runningApp is now new app
 	}
 	else
 	{
-		runningApps = (appObject *)malloc(sizeof(appObject));
-		runningApps->next = runningApps;
-		runningApps->prev = runningApps;
+		runningApp = (appObject *)malloc(sizeof(appObject));
+		runningApp->next = runningApp;
+		runningApp->prev = runningApp;
 	}
 
 	app->initApp(mapper);
-	runningApps->app = app;
+	app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
+	runningApp->app = app;
 }
 
-void Core::closeApp(App *app)
+void Core::closeApp()
 {
+	if (!runningApp)
+		return;
+	appObject *closingApp = runningApp;
+	if (closingApp != closingApp->prev)
+	{
+		closingApp->next->prev = closingApp->prev;
+		closingApp->prev->next = closingApp->next;
+		runningApp = closingApp->prev;
+	}
+	else
+		runningApp = nullptr;
+	delete (closingApp->app);
+	delete (closingApp);
 }
 
 void Core::updateApps()
 {
-	if (!runningApps)
+	if (!runningApp)
 		return;
-	appObject *startApp = runningApps;
+	runningApp->app->update();
+}
+
+void Core::updateBackground()
+{
+	if (!runningApp)
+		return;
+	appObject *startApp = runningApp;
 	do
 	{
-		runningApps->app->update();
-		runningApps = runningApps->next;
-	} while (startApp != runningApps);
+		runningApp->app->updateBackground();
+		runningApp = runningApp->next;
+	} while (startApp != runningApp);
 }
 
 void Core::drawApps()
 {
-	if (!runningApps)
-		return;
-	appObject *startApp = runningApps;
 	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
-	do
+	if (!runningApp)
 	{
-		runningApps->app->draw(dspMng);
-		runningApps = runningApps->next;
-	} while (startApp != runningApps);
+		dspMng->getDefaultFont();
+		dspMng->clear();
+		dspMng->printText("No running application :(", 0, 10);
+		return;
+	}
+	runningApp->app->draw(dspMng);
 }

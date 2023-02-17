@@ -8,7 +8,7 @@ class CMD : public App
 public:
     CMD();
 
-    void update();
+    void rewoke(DisplayManager *dspMng);
     void draw(DisplayManager *dspMng);
 };
 

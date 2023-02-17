@@ -26,7 +26,7 @@ public:
     char *getLastLog(uint8_t offSet = 0);
 
 private:
-    char logs[LOGGER_LENGTH][LOGGER_SIZE];
+    char logs[LOGGER_SIZE][LOGGER_LENGTH];
     uint8_t iterator = 0; // index of last message
 };
 

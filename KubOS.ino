@@ -122,5 +122,6 @@ void loop()
 		} // wait for user to release
 		//displayTime(true);
 		slpMng->wakeUp();
+		core->closeApp();
 	}
 }

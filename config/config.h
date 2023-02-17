@@ -1,6 +1,10 @@
 
-#define LILYGO_WATCH_2020_V3              // Use T-Watch2020
-// #define LILYGO_WATCH_LVGL
+#define LILYGO_WATCH_2020_V3
+#define VERSION "0.0.1"
+
+#define SCREEN_SIZE 240
+#define WINDOW_WIDTH 240
+#define WINDOW_HEIGHT 230
 
 #define SHADE_TIME 20 // in seconds
 #define SCREEN_TIME 30 // in seconds
