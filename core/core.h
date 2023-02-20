@@ -37,6 +37,8 @@ public:
     void initTTGO();
     // Initialization of mapper and managers
     void initManagers();
+    // Update managers
+    void updateManagers();
 
     // Getter of TTGOClass
     TTGOClass *getTTGO();
@@ -57,6 +59,8 @@ public:
 
     // Draw all apps
     void drawApps();
+
+    void nextApp();
 
 private:
     appObject *runningApp = nullptr;

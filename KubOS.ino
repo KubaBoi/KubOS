@@ -16,6 +16,8 @@
 #include "displayManager.h"
 
 #include "cmd.h"
+#include "clock.h"
+#include "batteryViewer.h"
 
 Core *core;
 TTGOClass *ttgo;
@@ -97,31 +99,34 @@ void setup()
 	mapper = core->getMapper();
 
 	core->startApp(new CMD());
+	core->startApp(new BatteryViewer());
+	core->startApp(new Clock());
 }
 
 void loop()
 {
+	core->updateManagers();
+
 	SleepManager *slpMng = (SleepManager *)mapper->getManager(SLP_MNG);
 	TouchManager *tchMng = (TouchManager *)mapper->getManager(TCH_MNG);
 	TimeManager *tmmMng = (TimeManager *)mapper->getManager(TMM_MNG);
-	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
 
 	if (tmmMng->isSecond())
 	{
 		//displayTime(ss == 0);
 		slpMng->checkSleep();
-		core->updateApps();
-		core->drawApps();
 	}
 
 	int16_t x, y;
 	if (tchMng->isTouch(&x, &y))
 	{
-		while (tchMng->isTouch(&x, &y))
-		{
-		} // wait for user to release
+		while (tchMng->isTouch(&x, &y)) {};
 		//displayTime(true);
 		slpMng->wakeUp();
-		core->closeApp();
+		core->nextApp();
+		//core->closeApp();
 	}
+
+	core->updateApps();
+	core->drawApps();
 }

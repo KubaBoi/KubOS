@@ -16,7 +16,7 @@ public:
 	Logger *logger;
 
 	Manager(ManagerMapper *mappern);
-	void update();
+	virtual void update();
 };
 
 #endif

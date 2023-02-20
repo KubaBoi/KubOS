@@ -29,6 +29,8 @@ public:
     uint16_t getYear();
 
 private:
+    bool isSec = false; // is true when one second passed this tick
+
     uint32_t targetTime = 0;
     uint8_t second, minute, hour, day, month;
     uint16_t year;

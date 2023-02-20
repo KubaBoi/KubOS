@@ -13,4 +13,6 @@
 #define LOGGER_SIZE 256 // buffer size
 #define LOGGER_LENGTH 40 // line length
 
+#define MIN_DRAG_DIST 5 // minimal drag distance
+
 #include <LilyGoWatch.h>

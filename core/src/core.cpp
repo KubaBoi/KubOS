@@ -34,6 +34,15 @@ void Core::initManagers()
 	mapper->setManager((uintptr_t) new DisplayManager(mapper));
 }
 
+void Core::updateManagers()
+{
+	for (int i = 0; i < mapper->getManagerCount(); i++)
+	{
+		Manager *mng = (Manager *)mapper->getManager(i);
+		mng->update();
+	}
+}
+
 TTGOClass *Core::getTTGO() { return ttgo; }
 
 ManagerMapper *Core::getMapper() { return mapper; }
@@ -44,8 +53,9 @@ void Core::startApp(App *app)
 	{
 		appObject *newApp = (appObject *)malloc(sizeof(appObject));
 		newApp->next = runningApp->next; // next of new app is next of runningApp
-		runningApp->next->prev = newApp; // prev of prev of next is new app
 		newApp->prev = runningApp;		 // prev of new app is runningApp
+		runningApp->next->prev = newApp; // prev of prev of next is new app
+		runningApp->next = newApp;		 // next of runningApp is new app
 		runningApp = newApp;			 // runningApp is now new app
 	}
 	else
@@ -70,6 +80,7 @@ void Core::closeApp()
 		closingApp->next->prev = closingApp->prev;
 		closingApp->prev->next = closingApp->next;
 		runningApp = closingApp->prev;
+		runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
 	}
 	else
 		runningApp = nullptr;
@@ -107,4 +118,13 @@ void Core::drawApps()
 		return;
 	}
 	runningApp->app->draw(dspMng);
+}
+
+void Core::nextApp()
+{
+	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
+	if (!runningApp)
+		return;
+	runningApp = runningApp->next;
+	runningApp->app->rewoke(dspMng);
 }

@@ -20,21 +20,24 @@ void TimeManager::update()
     if (minute < minuteOffset)
     {
         minute = 60 - (minuteOffset - minute);
-        if (hour == 0) hour = 23;
-        else hour--;
+        if (hour == 0)
+            hour = 23;
+        else
+            hour--;
     }
-    else minute -= minuteOffset;
-}
+    else
+        minute -= minuteOffset;
 
-bool TimeManager::isSecond() 
-{
-    if (targetTime < millis()) 
+    if (targetTime < millis())
     {
         targetTime = millis() + 1000;
-        return true;
+        isSec = true;
     }
-    return false;
+    else
+        isSec = false;
 }
+
+bool TimeManager::isSecond() { return isSec; }
 
 uint8_t TimeManager::getSecond() { return second; }
 uint8_t TimeManager::getMinute() { return minute; }
