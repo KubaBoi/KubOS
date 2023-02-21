@@ -4,6 +4,17 @@ Program for LilyGo TWatch 2020 v3. System can manage multiple applications as c+
 
 Via managers can applications operate IO of watch.
 
+## Description
+
+- config
+  - headers for configuration
+- core
+  - main parts of system
+- managers
+  - managers of IO
+- apps
+  - applications
+
 ## Setup
 
 https://wellys.com/posts/esp32_cli/
