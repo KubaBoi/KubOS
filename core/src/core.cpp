@@ -48,7 +48,7 @@ TTGOClass *Core::getTTGO() { return ttgo; }
 
 ManagerMapper *Core::getMapper() { return mapper; }
 
-void Core::startApp(App *app)
+void Core::startApp(App *app, bool rewoke)
 {
 	if (runningApp)
 	{
@@ -67,7 +67,8 @@ void Core::startApp(App *app)
 	}
 
 	app->initApp(mapper);
-	app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
+	if (rewoke)
+		app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
 	runningApp->app = app;
 }
 

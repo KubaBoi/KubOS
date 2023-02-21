@@ -47,7 +47,7 @@ public:
     ManagerMapper *getMapper();
 
     // Start the app
-    void startApp(App *app);
+    void startApp(App *app, bool rewoke=true);
 
     // Close running app and set prev app as running
     void closeApp();

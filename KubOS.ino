@@ -32,8 +32,8 @@ void setup()
 	ttgo = core->getTTGO();
 	mapper = core->getMapper();
 
-	core->startApp(new CMD());
-	core->startApp(new BatteryViewer());
+	core->startApp(new CMD(), false);
+	core->startApp(new BatteryViewer(), false);
 	core->startApp(new Clock());
 }
 
