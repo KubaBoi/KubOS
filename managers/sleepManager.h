@@ -5,6 +5,7 @@
 #include "irqManager.h"
 #include "batteryManager.h"
 #include "timeManager.h"
+#include "touchManager.h"
 
 #ifndef SLEEP_MANAGER_H
 #define SLEEP_MANAGER_H
@@ -25,7 +26,7 @@ public:
 	void wakeUp();
 
 	/**
-	 * puts watches to deep sleep mode
+	 * put watches to deep sleep mode
 	 * and wakes them up at touch
 	 */
 	void sleep();

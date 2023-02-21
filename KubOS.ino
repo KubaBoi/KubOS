@@ -40,23 +40,6 @@ void setup()
 void loop()
 {
 	core->updateManagers();
-
-	SleepManager *slpMng = (SleepManager *)mapper->getManager(SLP_MNG);
-	TouchManager *tchMng = (TouchManager *)mapper->getManager(TCH_MNG);
-	TimeManager *tmmMng = (TimeManager *)mapper->getManager(TMM_MNG);
-
-	int16_t x, y;
-	if (tchMng->isTouch(&x, &y))
-	{
-		while (tchMng->isTouch(&x, &y))
-		{
-		};
-		// displayTime(true);
-		slpMng->wakeUp();
-		core->nextApp();
-		// core->closeApp();
-	}
-
 	core->updateApps();
 	core->drawApps();
 }

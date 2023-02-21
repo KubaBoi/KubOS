@@ -42,6 +42,10 @@ void Core::updateManagers()
 		Manager *mng = (Manager *)mapper->getManager(i);
 		mng->update();
 	}
+
+	IRQManager *irqMng = (IRQManager *)mapper->getManager(IRQ_MNG);
+	if (irqMng->PEKshortPress)
+		nextApp();
 }
 
 TTGOClass *Core::getTTGO() { return ttgo; }

@@ -12,21 +12,18 @@ void SleepManager::update()
 	if (irqMng->PEKlongPress)
 		sleep();
 
+	BatteryManager *btrMng = (BatteryManager *)mapper->getManager(BTR_MNG);
+	TouchManager *tchMng = (TouchManager *)mapper->getManager(TCH_MNG);
+	int16_t x, y;
+	if (btrMng->isCharging() || tchMng->isTouch(&x, &y))
+		wakeUp();
+
 	TimeManager *tmmMng = (TimeManager *)mapper->getManager(TMM_MNG);
 	if (!tmmMng->isSecond())
 		return;
 
-	BatteryManager *btrMng = (BatteryManager *)mapper->getManager(BTR_MNG);
-	if (btrMng->isCharging())
-		wakeUp();
-
 	sleepTimer++;
-	if (sleepTimer == 1)
-	{
-		mapper->getTTGO()->setBrightness(100);
-		mapper->getTTGO()->openBL();
-	}
-	else if (sleepTimer == SHADE_TIME)
+	if (sleepTimer == SHADE_TIME)
 		mapper->getTTGO()->setBrightness(50);
 
 	else if (sleepTimer == SCREEN_TIME)
@@ -39,7 +36,12 @@ void SleepManager::update()
 	}
 }
 
-void SleepManager::wakeUp() { sleepTimer = 0; }
+void SleepManager::wakeUp()
+{
+	mapper->getTTGO()->setBrightness(100);
+	mapper->getTTGO()->openBL();
+	sleepTimer = 0;
+}
 
 void SleepManager::sleep()
 {
