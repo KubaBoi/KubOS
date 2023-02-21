@@ -16,7 +16,7 @@ public:
     void draw(DisplayManager *dspMng);
 
 private:
-    void getAngles(uint8_t minute, uint8_t length, int32_t *x, int32_t *y, uint8_t base=60);
+    void getAngles(uint16_t minute, uint8_t length, int32_t *x, int32_t *y, uint16_t base=60);
     int32_t x = WINDOW_WIDTH / 2;
     int32_t y = WINDOW_HEIGHT / 2;
     uint32_t r = x - 10;

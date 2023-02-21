@@ -27,6 +27,7 @@ void Core::initManagers()
 	logger->log("Initializating Manager Mapper");
 	mapper = new ManagerMapper(ttgo, logger, 10);
 	logger->log("Initializing managers:");
+	mapper->setManager((uintptr_t) new IRQManager(mapper));
 	mapper->setManager((uintptr_t) new SleepManager(mapper));
 	mapper->setManager((uintptr_t) new BatteryManager(mapper));
 	mapper->setManager((uintptr_t) new TimeManager(mapper));

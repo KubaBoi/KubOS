@@ -9,3 +9,5 @@
 #define YELLOW_16 0xFFE0
 #define MAGENTA_16 0xF81F
 #define CYAN_16 0x07FF
+
+#define GRAY_16 0x9CD2

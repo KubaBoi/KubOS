@@ -40,12 +40,12 @@ void Clock::draw(DisplayManager *dspMng)
     getAngles((tmmMng->getHour() % 12) * 60 + tmmMng->getMinute(), rs, &olds[4], &olds[5], 12 * 60);
 
     // draw new
-    dspMng->getTFT()->drawLine(x, y, x + olds[0], y + olds[1], WHITE_16);
+    dspMng->getTFT()->drawLine(x, y, x + olds[0], y + olds[1], GRAY_16);
     dspMng->getTFT()->drawLine(x, y, x + olds[2], y + olds[3], WHITE_16);
     dspMng->getTFT()->drawLine(x, y, x + olds[4], y + olds[5], RED_16);
 }
 
-void Clock::getAngles(uint8_t minute, uint8_t length, int32_t *xe, int32_t *ye, uint8_t base)
+void Clock::getAngles(uint16_t minute, uint8_t length, int32_t *xe, int32_t *ye, uint16_t base)
 {
     double radians = (((double)minute / base) * 2 * M_PI) - (M_PI / 2);
     *xe = cos(radians) * length;

@@ -3,6 +3,7 @@
 #include "logger.h"
 #include "config.h"
 #include "managerMapper.h"
+#include "irqManager.h"
 #include "sleepManager.h"
 #include "batteryManager.h"
 #include "timeManager.h"
