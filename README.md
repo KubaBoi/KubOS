@@ -23,6 +23,8 @@ https://wellys.com/posts/esp32_cli/
 
 `arduino-cli config init`
 
+config file: `~/.arduino15/arduino-cli.yaml`
+
 ```
 board_manager:
   additional_urls:
