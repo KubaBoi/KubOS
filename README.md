@@ -1,5 +1,9 @@
 # KubOS
 
+Program for LilyGo TWatch 2020 v3. System can manage multiple applications as c++ classes. 
+
+Via managers can applications operate IO of watch.
+
 ## Setup
 
 https://wellys.com/posts/esp32_cli/

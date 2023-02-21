@@ -37,7 +37,7 @@ void Clock::draw(DisplayManager *dspMng)
     // calc new
     getAngles(tmmMng->getSecond(), rl, &olds[0], &olds[1]);
     getAngles(tmmMng->getMinute(), rl, &olds[2], &olds[3]);
-    getAngles(tmmMng->getHour(), rs, &olds[4], &olds[5], 12);
+    getAngles((tmmMng->getHour() % 12) * 60 + tmmMng->getMinute(), rs, &olds[4], &olds[5], 12 * 60);
 
     // draw new
     dspMng->getTFT()->drawLine(x, y, x + olds[0], y + olds[1], WHITE_16);
