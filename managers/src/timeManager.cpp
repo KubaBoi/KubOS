@@ -1,8 +1,7 @@
 #include "timeManager.h"
 
-TimeManager::TimeManager(ManagerMapper *managern) : Manager(managern)
+TimeManager::TimeManager(ManagerMapper *managern) : Manager(managern, "TMM")
 {
-    logger->log("...Time Manager");
     managern->getTTGO()->rtc->check();
     managern->getTTGO()->rtc->syncToSystem();
 }
@@ -45,3 +44,5 @@ uint8_t TimeManager::getHour() { return hour; }
 uint8_t TimeManager::getDay() { return day; }
 uint8_t TimeManager::getMonth() { return month; }
 uint16_t TimeManager::getYear() { return year; }
+
+uint8_t TimeManager::getOffset() { return minuteOffset; }

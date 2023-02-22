@@ -33,6 +33,7 @@ void Core::initManagers()
 	mapper->setManager((uintptr_t) new TimeManager(mapper));
 	mapper->setManager((uintptr_t) new TouchManager(mapper));
 	mapper->setManager((uintptr_t) new DisplayManager(mapper));
+	mapper->setManager((uintptr_t) new AlarmManager(mapper));
 }
 
 void Core::updateManagers()

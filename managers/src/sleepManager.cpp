@@ -1,8 +1,7 @@
 #include "sleepManager.h"
 
-SleepManager::SleepManager(ManagerMapper *mappern) : Manager(mappern)
+SleepManager::SleepManager(ManagerMapper *mappern) : Manager(mappern, "SLP")
 {
-	logger->log("...Sleep Manager");
 	pinMode(TOUCH_INT, INPUT);
 }
 
@@ -56,6 +55,8 @@ void SleepManager::sleep()
 
 	// TOUCH SCREEN  Wakeup source
 	esp_sleep_enable_ext1_wakeup(GPIO_SEL_38, ESP_EXT1_WAKEUP_ALL_LOW);
+	// TILT Wakeup source
+	//esp_sleep_enable_ext1_wakeup(GPIO_SEL_39, ESP_EXT1_WAKEUP_ANY_HIGH);
 	// PEK KEY  Wakeup source
 	// esp_sleep_enable_ext1_wakeup(GPIO_SEL_35, ESP_EXT1_WAKEUP_ALL_LOW);
 	esp_deep_sleep_start();

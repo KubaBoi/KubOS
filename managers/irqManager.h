@@ -16,9 +16,15 @@ public:
     bool PEKshortPress,
         PEKlongPress,
         VBUSremoved,
-        VBUSconnect;
+        VBUSconnect,
+        RTCAlarm;
 
-    static bool irq;
+    static bool irqAxp;
+    static bool irqRtc;
+
+private:
+    void interruptAXP();
+    void interruptRTC();
 };
 
 #endif

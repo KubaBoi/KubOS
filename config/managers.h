@@ -7,3 +7,4 @@
 #define TMM_MNG 3 // TimeManager
 #define TCH_MNG 4 // TouchManager
 #define DSP_MNG 5 // DisplayManager
+#define ALM_MNG 6 // AlarmManager

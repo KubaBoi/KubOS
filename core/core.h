@@ -9,6 +9,7 @@
 #include "timeManager.h"
 #include "touchManager.h"
 #include "displayManager.h"
+#include "alarmManager.h"
 
 #include "app.h"
 

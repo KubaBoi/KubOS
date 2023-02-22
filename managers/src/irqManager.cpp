@@ -1,14 +1,20 @@
 #include "irqManager.h"
 
-bool IRQManager::irq = false;
+bool IRQManager::irqAxp = false;
+bool IRQManager::irqRtc = false;
 
-IRQManager::IRQManager(ManagerMapper *mappern) : Manager(mappern)
+IRQManager::IRQManager(ManagerMapper *mappern) : Manager(mappern, "IRQ")
 {
-    logger->log("...IRQManager");
     pinMode(AXP202_INT, INPUT_PULLUP);
     attachInterrupt(
         AXP202_INT, []
-        { irq = true; },
+        { irqAxp = true; },
+        FALLING);
+
+    pinMode(RTC_INT_PIN, INPUT_PULLUP);
+    attachInterrupt(
+        RTC_INT_PIN, []
+        { irqRtc = true; },
         FALLING);
 
     mapper->getTTGO()->power->enableIRQ(AXP202_PEK_SHORTPRESS_IRQ |
@@ -22,9 +28,15 @@ IRQManager::IRQManager(ManagerMapper *mappern) : Manager(mappern)
 
 void IRQManager::update()
 {
-    if (irq)
+    interruptAXP();
+    interruptRTC();
+}
+
+void IRQManager::interruptAXP()
+{
+    if (irqAxp)
     {
-        irq = false;
+        irqAxp = false;
         mapper->getTTGO()->power->readIRQ();
 
         PEKshortPress = mapper->getTTGO()->power->isPEKShortPressIRQ();
@@ -41,4 +53,15 @@ void IRQManager::update()
         VBUSremoved = false;
         VBUSconnect = false;
     }
+}
+
+void IRQManager::interruptRTC()
+{
+    if (irqRtc)
+    {
+        irqRtc = false;
+        RTCAlarm = true;
+    }
+    else
+        RTCAlarm = false;
 }

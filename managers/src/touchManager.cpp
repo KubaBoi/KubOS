@@ -1,8 +1,7 @@
 #include "touchManager.h"
 
-TouchManager::TouchManager(ManagerMapper *mappern) : Manager(mappern)
+TouchManager::TouchManager(ManagerMapper *mappern) : Manager(mappern, "TCH")
 {
-    logger->log("...Touch Manager");
 }
 
 void TouchManager::update()

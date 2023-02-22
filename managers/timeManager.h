@@ -28,6 +28,8 @@ public:
     uint8_t getMonth();
     uint16_t getYear();
 
+    uint8_t getOffset();
+
 private:
     bool isSec = false; // is true when one second passed this tick
 

@@ -1,8 +1,7 @@
 #include "displayManager.h"
 
-DisplayManager::DisplayManager(ManagerMapper *mappern) : Manager(mappern)
+DisplayManager::DisplayManager(ManagerMapper *mappern) : Manager(mappern, "DSP")
 {
-    logger->log("...Display Manager");
     defaultFont = (fnt *)malloc(sizeof(fnt));
     defaultFont->bgColor = BLACK_16;
     defaultFont->color = WHITE_16;

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "managerMapper.h"
 #include "logger.h"
@@ -14,8 +15,10 @@ class Manager
 public:
 	ManagerMapper *mapper;
 	Logger *logger;
+	char *name;
 
-	Manager(ManagerMapper *mappern);
+	Manager(ManagerMapper *mappern, char *namen);
+	void log(char *text);
 	virtual void update();
 };
 

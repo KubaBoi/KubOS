@@ -14,6 +14,7 @@
 #include "timeManager.h"
 #include "touchManager.h"
 #include "displayManager.h"
+#include "alarmManager.h"
 
 #include "cmd.h"
 #include "clock.h"
@@ -35,6 +36,9 @@ void setup()
 	core->startApp(new CMD(), false);
 	core->startApp(new BatteryViewer(), false);
 	core->startApp(new Clock());
+
+	AlarmManager *almMng = (AlarmManager *)mapper->getManager(ALM_MNG);
+	almMng->setAlarm(23, 14);
 }
 
 void loop()
