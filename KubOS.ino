@@ -38,7 +38,10 @@ void setup()
 	core->startApp(new Clock());
 
 	AlarmManager *almMng = (AlarmManager *)mapper->getManager(ALM_MNG);
-	almMng->setAlarm(23, 14);
+	almMng->setAlarm(8, 0);
+	almMng->setAlarm(10, 0);
+	almMng->setAlarm(10, 30);
+	ttgo->motor_begin();
 }
 
 void loop()

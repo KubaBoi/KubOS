@@ -15,7 +15,7 @@ void AlarmManager::update()
     if (irqMng->RTCAlarm)
     {
         setNextAlarm();
-        mapper->getTTGO()->motor->onec(1000);
+        mapper->getTTGO()->motor->onec(60000);
     }
 }
 

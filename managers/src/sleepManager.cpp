@@ -55,8 +55,34 @@ void SleepManager::sleep()
 
 	// TOUCH SCREEN  Wakeup source
 	esp_sleep_enable_ext1_wakeup(GPIO_SEL_38, ESP_EXT1_WAKEUP_ALL_LOW);
+	// ALARM Wakeup
+	TimeManager *tmmMng = (TimeManager *)mapper->getManager(TMM_MNG);
+	AlarmManager *almMng = (AlarmManager *)mapper->getManager(ALM_MNG);
+	uint8_t hour, minute, hourAct, minuteAct;
+	uint32_t sleepTime = 0;
+	if (almMng->getNextAlarm(&hour, &minute))
+	{
+		hourAct = tmmMng->getHour();
+		if (hour <= hourAct)
+			sleepTime = (23 - hourAct) + hour;
+		else
+			sleepTime = hour - hourAct;
+		sleepTime *= 60;
+
+		minuteAct = tmmMng->getMinute();
+		if (minute <= minuteAct)
+			sleepTime += (59 - minuteAct) + minute;
+		else
+			sleepTime += minute - minuteAct;
+		sleepTime *= 60;
+		/*std::string s = std::to_string(sleepTime);
+		char *pchar = (char *)s.c_str();
+		log(pchar);*/
+
+		esp_sleep_enable_timer_wakeup(sleepTime * 1000000ULL);
+	}
 	// TILT Wakeup source
-	//esp_sleep_enable_ext1_wakeup(GPIO_SEL_39, ESP_EXT1_WAKEUP_ANY_HIGH);
+	// esp_sleep_enable_ext1_wakeup(GPIO_SEL_39, ESP_EXT1_WAKEUP_ANY_HIGH);
 	// PEK KEY  Wakeup source
 	// esp_sleep_enable_ext1_wakeup(GPIO_SEL_35, ESP_EXT1_WAKEUP_ALL_LOW);
 	esp_deep_sleep_start();

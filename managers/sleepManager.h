@@ -1,3 +1,6 @@
+#include <cstring>
+#include <string>
+
 #include "config.h"
 #include "managers.h"
 #include "managerMapper.h"
@@ -6,6 +9,7 @@
 #include "batteryManager.h"
 #include "timeManager.h"
 #include "touchManager.h"
+#include "alarmManager.h"
 
 #ifndef SLEEP_MANAGER_H
 #define SLEEP_MANAGER_H
