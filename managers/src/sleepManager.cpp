@@ -62,15 +62,16 @@ void SleepManager::sleep()
 	uint32_t sleepTime = 0;
 	if (almMng->getNextAlarm(&hour, &minute))
 	{
+		// tohle dodelat, aby se ty rovnitka chapes
 		hourAct = tmmMng->getHour();
-		if (hour <= hourAct)
+		if (hour < hourAct)
 			sleepTime = (23 - hourAct) + hour;
 		else
 			sleepTime = hour - hourAct;
 		sleepTime *= 60;
 
 		minuteAct = tmmMng->getMinute();
-		if (minute <= minuteAct)
+		if (minute < minuteAct)
 			sleepTime += (59 - minuteAct) + minute;
 		else
 			sleepTime += minute - minuteAct;
