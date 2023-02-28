@@ -15,6 +15,7 @@ class Logger
 {
 public:
     Logger();
+    char clear[LOGGER_LENGTH];
 
     // Save `msg` into memory
     void log(char *msg);
@@ -23,7 +24,7 @@ public:
     uint8_t getIterator();
 
     // Return last `offSet` log
-    char *getLastLog(uint8_t offSet = 0);
+    char *getLastLog(int offSet = 0);
 
 private:
     char logs[LOGGER_SIZE][LOGGER_LENGTH];

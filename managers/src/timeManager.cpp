@@ -31,6 +31,7 @@ void TimeManager::update()
     {
         targetTime = millis() + 1000;
         isSec = true;
+        log("Second");
     }
     else
         isSec = false;

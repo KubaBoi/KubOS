@@ -30,10 +30,9 @@ class Core
 {
 public:
     /**
-     * If `doInitialization` = `true`
      * TTGO and Managers are intialized in constructor
      */
-    Core(bool doInitialization = true);
+    Core();
 
     // Initialization of TTGOClass and turning backlights on
     void initTTGO();
@@ -48,7 +47,7 @@ public:
     ManagerMapper *getMapper();
 
     // Start the app
-    void startApp(App *app, bool rewoke=true);
+    void startApp(App *app, bool rewoke = true);
 
     // Close running app and set prev app as running
     void closeApp();
@@ -70,6 +69,11 @@ private:
     TTGOClass *ttgo;
     ManagerMapper *mapper;
     Logger *logger;
+
+    // void updateDesktop();
+    void startDesktop();
+    void drawDesktop(DisplayManager *dspMng);
+    void rewokeDesktop(DisplayManager *dspMng);
 };
 
 #endif

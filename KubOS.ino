@@ -16,7 +16,6 @@
 #include "displayManager.h"
 #include "alarmManager.h"
 
-#include "cmd.h"
 #include "clock.h"
 #include "batteryViewer.h"
 
@@ -33,15 +32,14 @@ void setup()
 	ttgo = core->getTTGO();
 	mapper = core->getMapper();
 
-	core->startApp(new CMD(), false);
-	core->startApp(new BatteryViewer(), false);
-	core->startApp(new Clock());
+	//core->startApp(new BatteryViewer(), false);
+	//core->startApp(new Clock());
 
-	AlarmManager *almMng = (AlarmManager *)mapper->getManager(ALM_MNG);
+	/*AlarmManager *almMng = (AlarmManager *)mapper->getManager(ALM_MNG);
 	almMng->setAlarm(8, 0);
 	almMng->setAlarm(10, 0);
 	almMng->setAlarm(10, 30);
-	ttgo->motor_begin();
+	ttgo->motor_begin();*/
 }
 
 void loop()

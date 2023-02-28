@@ -1,17 +1,15 @@
 #include "core.h"
 
-Core::Core(bool doInitialization)
+Core::Core()
 {
 	logger = new Logger();
 	logger->log("KubOS");
 	logger->log(VERSION);
-	if (!doInitialization)
-	{
-		logger->log("Skipping inicialization");
-		return;
-	}
+
 	initTTGO();
 	initManagers();
+
+	startDesktop();
 }
 
 void Core::initTTGO()
@@ -71,9 +69,15 @@ void Core::startApp(App *app, bool rewoke)
 		runningApp->prev = runningApp;
 	}
 
-	app->initApp(mapper);
-	if (rewoke)
-		app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
+	if (app)
+	{
+		app->initApp(mapper);
+		if (rewoke)
+			app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
+	}
+	else if (rewoke)
+		rewokeDesktop((DisplayManager *)mapper->getManager(DSP_MNG));
+
 	runningApp->app = app;
 }
 
@@ -81,13 +85,19 @@ void Core::closeApp()
 {
 	if (!runningApp)
 		return;
+	if (!runningApp->app)
+		return; // desktop
+
 	appObject *closingApp = runningApp;
 	if (closingApp != closingApp->prev)
 	{
 		closingApp->next->prev = closingApp->prev;
 		closingApp->prev->next = closingApp->next;
 		runningApp = closingApp->prev;
-		runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
+		if (runningApp->app)
+			runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
+		else
+			rewokeDesktop((DisplayManager *)mapper->getManager(DSP_MNG));
 	}
 	else
 		runningApp = nullptr;
@@ -99,6 +109,9 @@ void Core::updateApps()
 {
 	if (!runningApp)
 		return;
+	if (!runningApp->app)
+		return;
+
 	runningApp->app->update();
 }
 
@@ -109,7 +122,9 @@ void Core::updateBackground()
 	appObject *startApp = runningApp;
 	do
 	{
-		runningApp->app->updateBackground();
+		// desktop is not updated in background
+		if (runningApp->app)
+			runningApp->app->updateBackground();
 		runningApp = runningApp->next;
 	} while (startApp != runningApp);
 }
@@ -117,14 +132,13 @@ void Core::updateBackground()
 void Core::drawApps()
 {
 	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
+	TFT_eSPI *tft = dspMng->getTFT();
 	if (!runningApp)
-	{
-		dspMng->getDefaultFont();
-		dspMng->clear();
-		dspMng->printText("No running application :(", 0, 10);
-		return;
-	}
-	runningApp->app->draw(dspMng);
+		startDesktop();
+	else if (runningApp->app)
+		runningApp->app->draw(dspMng);
+	else
+		drawDesktop(dspMng);
 }
 
 void Core::nextApp()
@@ -133,5 +147,33 @@ void Core::nextApp()
 	if (!runningApp)
 		return;
 	runningApp = runningApp->next;
-	runningApp->app->rewoke(dspMng);
+	if (runningApp->app)
+		runningApp->app->rewoke(dspMng);
+	else
+		rewokeDesktop(dspMng);
+}
+
+void Core::startDesktop()
+{
+	logger->log("Starting desktop");
+	startApp(nullptr, true); // appObject with null app
+}
+
+void Core::drawDesktop(DisplayManager *dspMng)
+{
+	TFT_eSPI *tft = dspMng->getTFT();
+	uint8_t ROWS = 29;
+	for (int i = ROWS; i > 0; i--)
+	{
+		uint8_t y = SCREEN_SIZE - i * 8;
+		dspMng->printText(logger->getLastLog(i), 0, y);
+		uint8_t length = strlen(logger->getLastLog(i));
+		dspMng->printText(logger->clear, length * 6, y);
+	}
+}
+
+void Core::rewokeDesktop(DisplayManager *dspMng)
+{
+	dspMng->resetDefaultFont();
+	dspMng->clear();
 }

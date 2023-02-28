@@ -18,4 +18,5 @@ else
     fi
 fi
 python clear.py
+date
 #arduino-cli monitor -p $PORT -c baudrate=115200
