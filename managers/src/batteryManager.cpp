@@ -2,6 +2,11 @@
 
 BatteryManager::BatteryManager(ManagerMapper *mappern) : Manager(mappern, "BTR") 
 {
+	mapper->getTTGO()->power->adc1Enable(AXP202_VBUS_VOL_ADC1 |
+											 AXP202_VBUS_CUR_ADC1 |
+											 AXP202_BATT_CUR_ADC1 |
+											 AXP202_BATT_VOL_ADC1,
+										 true);
 }
 
 bool BatteryManager::isCharging()

@@ -1,5 +1,7 @@
 #include "config.h"
+#include "managers.h"
 #include "manager.h"
+#include "irqManager.h"
 
 #ifndef BATTERY_MANAGER_H
 #define BATTERY_MANAGER_H

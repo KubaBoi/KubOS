@@ -32,8 +32,8 @@ void setup()
 	ttgo = core->getTTGO();
 	mapper = core->getMapper();
 
-	//core->startApp(new BatteryViewer(), false);
-	//core->startApp(new Clock());
+	core->startApp(new BatteryViewer(), false);
+	core->startApp(new Clock());
 
 	/*AlarmManager *almMng = (AlarmManager *)mapper->getManager(ALM_MNG);
 	almMng->setAlarm(8, 0);
