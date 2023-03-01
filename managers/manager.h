@@ -18,7 +18,7 @@ public:
 	char *name;
 
 	Manager(ManagerMapper *mappern, char *namen);
-	void log(char *text);
+	void log(const char *text, ...);
 	virtual void update();
 };
 

@@ -47,12 +47,6 @@ void SleepManager::sleep()
 	mapper->getTTGO()->displaySleep();
 	mapper->getTTGO()->powerOff();
 
-	mapper->getTTGO()->power->setPowerOutPut(AXP202_LDO3, false);
-	mapper->getTTGO()->power->setPowerOutPut(AXP202_LDO4, false);
-	mapper->getTTGO()->power->setPowerOutPut(AXP202_LDO2, false);
-	mapper->getTTGO()->power->setPowerOutPut(AXP202_EXTEN, false);
-	mapper->getTTGO()->power->setPowerOutPut(AXP202_DCDC2, false);
-
 	// TOUCH SCREEN  Wakeup source
 	esp_sleep_enable_ext1_wakeup(GPIO_SEL_38, ESP_EXT1_WAKEUP_ALL_LOW);
 	// ALARM Wakeup

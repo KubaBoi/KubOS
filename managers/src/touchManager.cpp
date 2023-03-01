@@ -2,21 +2,24 @@
 
 TouchManager::TouchManager(ManagerMapper *mappern) : Manager(mappern, "TCH")
 {
+    vx, vy, distance = 0;
 }
 
 void TouchManager::update()
 {
-    /*int16_t nx, ny; // new values
+    int16_t nx, ny; // new values
     isDrg = false;
+    vx, vy = 0;
 
     bool nIsTch = mapper->getTTGO()->getTouch(nx, ny);
     if (isTch && nIsTch) // drag
     {
         vx = nx - x;
         vy = ny - y;
-        float dist = (vx * vx) + (vy * vy);
-        if (dist >= MIN_DRAG_DIST)
+        distance = sqrt((vx * vx) + (vy * vy));
+        if (distance >= MIN_DRAG_DIST)
             isDrg = true;
+        
     }
     else if (!isTch && nIsTch)
     {
@@ -24,21 +27,20 @@ void TouchManager::update()
         y = ny;
         isTch = true;
     }
-    else
-        isTch = nIsTch;*/
+    isTch = nIsTch;
 }
 
 bool TouchManager::isTouch(int16_t *xn, int16_t *yn)
 {
-    bool ret = mapper->getTTGO()->getTouch(x, y);
     *xn = x;
     *yn = y;
-    return ret;
+    return isTch;
 }
 
-bool TouchManager::isDrag(int16_t *xn, int16_t *yn)
+bool TouchManager::isDrag(int16_t *xn, int16_t *yn, double *dist)
 {
     *xn = vx;
     *yn = vy;
+    *dist = distance;
     return isDrg;
 }

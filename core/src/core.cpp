@@ -2,9 +2,10 @@
 
 Core::Core()
 {
+	scroll = 0;
 	logger = new Logger();
-	logger->log("KubOS");
-	logger->log(VERSION);
+	logger->log("KubOS %s", VERSION);
+	logger->log("0x%x Logger", logger);
 
 	initTTGO();
 	initManagers();
@@ -14,16 +15,16 @@ Core::Core()
 
 void Core::initTTGO()
 {
-	logger->log("Initializating TTGOClass");
 	ttgo = TTGOClass::getWatch();
 	ttgo->begin();
 	ttgo->openBL();
+	logger->log("0x%x TTGOClass", ttgo);
 }
 
 void Core::initManagers()
 {
-	logger->log("Initializating Manager Mapper");
 	mapper = new ManagerMapper(ttgo, logger, 10);
+	logger->log("0x%x ManagerMapper", mapper);
 	logger->log("Initializing managers:");
 	mapper->setManager((uintptr_t) new IRQManager(mapper));
 	mapper->setManager((uintptr_t) new SleepManager(mapper));
@@ -110,9 +111,9 @@ void Core::updateApps()
 	if (!runningApp)
 		return;
 	if (!runningApp->app)
-		return;
-
-	runningApp->app->update();
+		updateDesktop();
+	else
+		runningApp->app->update();
 }
 
 void Core::updateBackground()
@@ -159,6 +160,16 @@ void Core::startDesktop()
 	startApp(nullptr, true); // appObject with null app
 }
 
+void Core::updateDesktop()
+{
+	TouchManager *tchMng = (TouchManager *)mapper->getManager(TCH_MNG);
+	int16_t x, y;
+	double dist;
+	if (!tchMng->isDrag(&x, &y, &dist))
+		return;
+	scroll = y / 4;
+}
+
 void Core::drawDesktop(DisplayManager *dspMng)
 {
 	TFT_eSPI *tft = dspMng->getTFT();
@@ -166,8 +177,8 @@ void Core::drawDesktop(DisplayManager *dspMng)
 	for (int i = ROWS; i > 0; i--)
 	{
 		uint8_t y = SCREEN_SIZE - i * 8;
-		dspMng->printText(logger->getLastLog(i), 0, y);
-		uint8_t length = strlen(logger->getLastLog(i));
+		uint8_t length = strlen(logger->getLastLog(i + scroll));
+		dspMng->printText(logger->getLastLog(i + scroll), 0, y);
 		dspMng->printText(logger->clear, length * 6, y);
 	}
 }
@@ -176,4 +187,5 @@ void Core::rewokeDesktop(DisplayManager *dspMng)
 {
 	dspMng->resetDefaultFont();
 	dspMng->clear();
+	scroll = 0;
 }

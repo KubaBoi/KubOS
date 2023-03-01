@@ -1,7 +1,6 @@
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdarg.h>
 
 #include "config.h"
 
@@ -18,7 +17,8 @@ public:
     char clear[LOGGER_LENGTH];
 
     // Save `msg` into memory
-    void log(char *msg);
+    void log(const char *msg, ...);
+    void vlog(const char *msg, va_list valist);
 
     // Return iterator
     uint8_t getIterator();

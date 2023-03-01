@@ -70,8 +70,10 @@ private:
     ManagerMapper *mapper;
     Logger *logger;
 
-    // void updateDesktop();
+    int8_t scroll;
+
     void startDesktop();
+    void updateDesktop();
     void drawDesktop(DisplayManager *dspMng);
     void rewokeDesktop(DisplayManager *dspMng);
 };

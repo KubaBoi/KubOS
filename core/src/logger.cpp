@@ -10,9 +10,16 @@ Logger::Logger()
     clear[LOGGER_LENGTH - 1] = 0;
 }
 
-void Logger::log(char *msg)
+void Logger::log(const char *msg, ...)
 {
-    strncpy(logs[iterator++], msg, LOGGER_LENGTH - 2);
+    va_list valist;
+    va_start(valist, msg);
+    vlog(msg, valist);
+}
+
+void Logger::vlog(const char *msg, va_list valist)
+{
+    vsnprintf(logs[iterator++], LOGGER_LENGTH, msg, valist);
 }
 
 uint8_t Logger::getIterator() { return iterator; }
