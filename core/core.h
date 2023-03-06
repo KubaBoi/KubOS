@@ -11,16 +11,11 @@
 #include "displayManager.h"
 #include "alarmManager.h"
 
+#include "appObject.h"
 #include "app.h"
 
 #ifndef CORE_H
 #define CORE_H
-
-struct appObject
-{
-    App *app;
-    appObject *next, *prev;
-};
 
 /**
  * Main class initializating managers, mapper, TTGOClass
@@ -64,7 +59,7 @@ public:
     void nextApp();
 
 private:
-    appObject *runningApp = nullptr;
+    AppObject *runningApp = nullptr;
 
     TTGOClass *ttgo;
     ManagerMapper *mapper;

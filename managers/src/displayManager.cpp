@@ -8,9 +8,7 @@ DisplayManager::DisplayManager(ManagerMapper *mappern) : Manager(mappern, "DSP")
     defaultFont->size = 1;
     defaultFont->font = 1;
     deffnt = defaultFont;
-
     tft = mappern->getTTGO()->tft;
-    tft->fillScreen(BLACK_16);
 }
 
 DisplayManager::~DisplayManager() { delete (deffnt); }

@@ -7,6 +7,7 @@ lib_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "librar
 print("Moving files...")
 headers = []
 for root, dirs, files in os.walk("."):
+    if (root.__contains__("/lib")): continue
     for file in files:
         if ((file.endswith(".h") or file.endswith(".cpp")) and root != "."):
             headers.append([root, file])

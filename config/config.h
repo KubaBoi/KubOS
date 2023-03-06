@@ -12,7 +12,11 @@
 
 #define LOGGER_SIZE 256 // buffer size
 #define LOGGER_LENGTH 40 // line length
+#define LOGGER_MAX_LENGTH LOGGER_LENGTH * 4 // max length of one log
 
 #define MIN_DRAG_DIST 5 // minimal drag distance
+
+#define LILYGO_WATCH_LVGL   
+// #define LILYGO_WATCH_LVGL_FS 
 
 #include <LilyGoWatch.h>

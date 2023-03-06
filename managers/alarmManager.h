@@ -23,9 +23,10 @@ public:
 
 private:
     static uint16_t alarmCount;
-    // set next alarm int RTC
+    // set next alarm int RTC 180
     bool setNextAlarm();
     bool alarms[24 * 60];
+    IRQManager *irqMng;
 };
 
 #endif

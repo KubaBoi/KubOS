@@ -4,19 +4,16 @@ uint16_t AlarmManager::alarmCount = 24 * 60;
 
 AlarmManager::AlarmManager(ManagerMapper *mappern) : Manager(mappern, "ALM")
 {
-    mapper->getTTGO()->rtc->resetAlarm();
+    irqMng = (IRQManager *)mappern->getManager(IRQ_MNG);
+    mappern->getTTGO()->rtc->resetAlarm();
     for (uint16_t i = 0; i < alarmCount; i++)
         alarms[i] = 0;
 }
 
 void AlarmManager::update()
 {
-    IRQManager *irqMng = (IRQManager *)mapper->getManager(IRQ_MNG);
     if (irqMng->RTCAlarm)
-    {
         setNextAlarm();
-        mapper->getTTGO()->motor->onec(60000);
-    }
 }
 
 void AlarmManager::setAlarm(uint8_t hour, uint8_t minute)

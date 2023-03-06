@@ -31,8 +31,13 @@ public:
     // Update done by app when it is on background
     virtual void updateBackground();
 
-    // draw of every application
+    // Draw of application
     virtual void draw(DisplayManager *dspMng);
+
+    // Interrupt functions
+    virtual void irqInterrupt(AXP20X_Class *power);
+    virtual void rtcInterrupt(PCF8563_Class *rtc);
+    
 };
 
 #endif

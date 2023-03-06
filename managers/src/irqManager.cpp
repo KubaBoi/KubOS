@@ -32,36 +32,89 @@ void IRQManager::update()
     interruptRTC();
 }
 
+void IRQManager::attachIRQInterrupt(App *app)
+{
+    if (irqInterrupts)
+        irqInterrupts = irqInterrupts->addAfter(app);
+    else
+        irqInterrupts = new AppObject(app);
+}
+
+uint8_t IRQManager::deattachIRQInterrupt(App *app)
+{
+    if (!irqInterrupts)
+        return 0;
+    AppObject *search = irqInterrupts->find(app);
+    if (search)
+        irqInterrupts = search->remove(false);
+    else
+        return 0;
+    return 1;
+}
+
+void IRQManager::attachRTCInterrupt(App *app)
+{
+    if (rtcInterrupts)
+        rtcInterrupts = rtcInterrupts->addAfter(app);
+    else
+        rtcInterrupts = new AppObject(app);
+}
+
+uint8_t IRQManager::deattachRTCInterrupt(App *app)
+{
+    if (!rtcInterrupts)
+        return 0;
+    AppObject *search = rtcInterrupts->find(app);
+    if (search)
+        rtcInterrupts = search->remove(false);
+    else
+        return 0;
+    return 1;
+}
+
 void IRQManager::interruptAXP()
 {
-    if (irqAxp)
-    {
-        irqAxp = false;
-        mapper->getTTGO()->power->readIRQ();
+    if (!irqAxp)
+        return;
 
-        PEKshortPress = mapper->getTTGO()->power->isPEKShortPressIRQ();
-        PEKlongPress = mapper->getTTGO()->power->isPEKLongtPressIRQ();
-        VBUSremoved = mapper->getTTGO()->power->isVbusRemoveIRQ();
-        VBUSconnect = mapper->getTTGO()->power->isVbusPlugInIRQ();
+    irqAxp = false;
+    AXP20X_Class *power = mapper->getTTGO()->power;
+    power->readIRQ();
 
-        mapper->getTTGO()->power->clearIRQ();
-    }
-    else
+    AppObject *start = irqInterrupts;
+    if (start)
     {
-        PEKshortPress = false;
-        PEKlongPress = false;
-        VBUSremoved = false;
-        VBUSconnect = false;
+        do
+        {
+            if (start->app)
+                start->app->irqInterrupt(power);
+            start = start->next;
+        } while (start != irqInterrupts);
     }
+    /*PEKshortPress = power->isPEKShortPressIRQ();
+    PEKlongPress = power->isPEKLongtPressIRQ();
+    VBUSremoved = power->isVbusRemoveIRQ();
+    VBUSconnect = power->isVbusPlugInIRQ();*/
+
+    power->clearIRQ();
 }
 
 void IRQManager::interruptRTC()
 {
-    if (irqRtc)
+    if (!irqRtc)
+        return;
+
+    irqRtc = false;
+    PCF8563_Class *rtc = mapper->getTTGO()->rtc;
+
+    if (rtcInterrupts)
     {
-        irqRtc = false;
-        RTCAlarm = true;
+        AppObject *start = rtcInterrupts;
+        do
+        {
+            if (start->app)
+                start->app->rtcInterrupt(rtc);
+            start = start->next;
+        } while (start != rtcInterrupts);
     }
-    else
-        RTCAlarm = false;
 }

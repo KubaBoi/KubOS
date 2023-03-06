@@ -10,3 +10,5 @@ void App::rewoke(DisplayManager *dspMng) {}
 void App::update() {}
 void App::updateBackground() {}
 void App::draw(DisplayManager *dspMng) {}
+void App::irqInterrupt(AXP20X_Class *power) {}
+void App::rtcInterrupt(PCF8563_Class *rtc) {}

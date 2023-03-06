@@ -7,9 +7,9 @@ SleepManager::SleepManager(ManagerMapper *mappern) : Manager(mappern, "SLP")
 
 void SleepManager::update()
 {
-	IRQManager *irqMng = (IRQManager *)mapper->getManager(IRQ_MNG);
+	/*IRQManager *irqMng = (IRQManager *)mapper->getManager(IRQ_MNG);
 	if (irqMng->PEKlongPress)
-		sleep();
+		sleep();*/
 
 	BatteryManager *btrMng = (BatteryManager *)mapper->getManager(BTR_MNG);
 	TouchManager *tchMng = (TouchManager *)mapper->getManager(TCH_MNG);
