@@ -24,7 +24,7 @@ public:
         PEKlongPress,
         VBUSremoved,
         VBUSconnect,
-        RTCAlarm;
+        RTCAlarm = false;
 
     static bool irqAxp;
     static bool irqRtc;
