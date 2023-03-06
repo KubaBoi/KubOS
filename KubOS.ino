@@ -45,6 +45,8 @@ void setup()
 	ttgo = core->getTTGO();
 	mapper = core->getMapper();
 
+	core->startApp(new Clock());
+
 	/*lv_obj_t *label;
 	lv_obj_t *btn1 = lv_btn_create(lv_scr_act(), NULL);
 	lv_obj_set_event_cb(btn1, event_handler);

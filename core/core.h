@@ -13,6 +13,7 @@
 
 #include "appObject.h"
 #include "app.h"
+#include "desktop.h"
 
 #ifndef CORE_H
 #define CORE_H
@@ -68,9 +69,6 @@ private:
     int8_t scroll;
 
     void startDesktop();
-    void updateDesktop();
-    void drawDesktop(DisplayManager *dspMng);
-    void rewokeDesktop(DisplayManager *dspMng);
 };
 
 #endif

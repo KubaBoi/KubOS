@@ -20,10 +20,10 @@ public:
     void attachRTCInterrupt(App *app);
     uint8_t deattachRTCInterrupt(App *app);
 
-    bool PEKshortPress,
-        PEKlongPress,
-        VBUSremoved,
-        VBUSconnect,
+    bool PEKshortPress = false,
+        PEKlongPress = false,
+        VBUSremoved = false,
+        VBUSconnect = false,
         RTCAlarm = false;
 
     static bool irqAxp;

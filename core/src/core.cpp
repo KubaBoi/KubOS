@@ -55,53 +55,44 @@ ManagerMapper *Core::getMapper() { return mapper; }
 
 void Core::startApp(App *app, bool rewoke)
 {
+	if (!app)
+		return;
+
 	if (runningApp)
 		runningApp = runningApp->addAfter(app);
 	else
 		runningApp = new AppObject(app);
 
-	if (app)
-	{
-		app->initApp(mapper);
-		if (rewoke)
-			app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
-	}
-	else if (rewoke)
-		rewokeDesktop((DisplayManager *)mapper->getManager(DSP_MNG));
+	app->initApp(mapper);
+	if (rewoke)
+		app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
 }
 
 void Core::closeApp()
 {
-	if (!runningApp && !runningApp->app)
-		return; // desktop
+	if (!runningApp)
+		return;
 	// maybe need delete (closingApp);
 	runningApp = runningApp->remove();
-	if (runningApp && runningApp->app)
-		runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
-	else
-		rewokeDesktop((DisplayManager *)mapper->getManager(DSP_MNG));
+	if (!runningApp)
+		startDesktop();
+	runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
 }
 
 void Core::updateApps()
 {
 	if (!runningApp)
 		startDesktop();
-	else if (!runningApp->app)
-		updateDesktop();
-	else
-		runningApp->app->update();
+	runningApp->app->update();
+	updateBackground();
 }
 
 void Core::updateBackground()
 {
-	if (!runningApp)
-		return;
 	AppObject *startApp = runningApp;
 	do
 	{
-		// desktop is not updated in background
-		if (runningApp->app)
-			runningApp->app->updateBackground();
+		runningApp->app->updateBackground();
 		runningApp = runningApp->next;
 	} while (startApp != runningApp);
 }
@@ -109,55 +100,19 @@ void Core::updateBackground()
 void Core::drawApps()
 {
 	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
-	if (!runningApp)
-		drawDesktop(dspMng);
-	else if (!runningApp->app)
-		drawDesktop(dspMng);
-	else
-		runningApp->app->draw(dspMng);
-	//lv_task_handler();
+	runningApp->app->draw(dspMng);
+	lv_task_handler();
 }
 
 void Core::nextApp()
 {
 	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
-	if (!runningApp)
-		return;
 	runningApp = runningApp->next;
-	if (runningApp->app)
-		runningApp->app->rewoke(dspMng);
-	else
-		rewokeDesktop(dspMng);
+	runningApp->app->rewoke(dspMng);
 }
 
 void Core::startDesktop()
 {
 	logger->log("Starting desktop");
-	startApp(nullptr, true); // appObject with null app
-}
-
-void Core::updateDesktop()
-{
-	TouchManager *tchMng = (TouchManager *)mapper->getManager(TCH_MNG);
-	int16_t x, y;
-	double dist;
-	if (!tchMng->isDrag(&x, &y, &dist))
-		return;
-	scroll = y / 4;
-	if (scroll < 0)
-		scroll = 0;
-}
-
-void Core::drawDesktop(DisplayManager *dspMng)
-{
-	uint8_t ROWS = 29;
-	for (int i = ROWS; i > 0; i--)
-		dspMng->printText(logger->getLastLog(i + scroll), 0, SCREEN_SIZE - i * 8);
-}
-
-void Core::rewokeDesktop(DisplayManager *dspMng)
-{
-	dspMng->resetDefaultFont();
-	//dspMng->clear();
-	scroll = 0;
+	startApp(new Desktop(), true);
 }
