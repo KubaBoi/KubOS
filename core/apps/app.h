@@ -31,8 +31,8 @@ public:
     // Update done by app when it is on background
     virtual void updateBackground();
 
-    // Draw of application
-    virtual void draw(DisplayManager *dspMng);
+    // Draw of application - return true of LVGL needed
+    virtual bool draw(DisplayManager *dspMng);
 
     // Interrupt functions
     virtual void irqInterrupt(AXP20X_Class *power);

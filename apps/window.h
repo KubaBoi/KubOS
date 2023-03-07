@@ -10,7 +10,7 @@ public:
     Window();
 
     void rewoke(DisplayManager *dspMng);
-    void draw(DisplayManager *dspMng);
+    bool draw(DisplayManager *dspMng);
 };
 
 #endif

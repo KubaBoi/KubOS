@@ -15,7 +15,7 @@ public:
     BatteryViewer();
 
     void rewoke(DisplayManager *dspMng);
-    void draw(DisplayManager *dspMng);
+    bool draw(DisplayManager *dspMng);
 
 private:
     fnt *font = nullptr;

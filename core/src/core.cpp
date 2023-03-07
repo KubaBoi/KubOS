@@ -63,9 +63,9 @@ void Core::startApp(App *app, bool rewoke)
 	else
 		runningApp = new AppObject(app);
 
-	app->initApp(mapper);
+	runningApp->app->initApp(mapper);
 	if (rewoke)
-		app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
+		runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
 }
 
 void Core::closeApp()
@@ -100,8 +100,8 @@ void Core::updateBackground()
 void Core::drawApps()
 {
 	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
-	runningApp->app->draw(dspMng);
-	lv_task_handler();
+	if (runningApp->app->draw(dspMng))
+		lv_task_handler();
 }
 
 void Core::nextApp()

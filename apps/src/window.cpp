@@ -7,7 +7,7 @@ void Window::rewoke(DisplayManager *dspMng)
     
 }
 
-void Window::draw(DisplayManager *dsp)
+bool Window::draw(DisplayManager *dsp)
 {
-
+    return false;
 }

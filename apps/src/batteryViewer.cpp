@@ -16,11 +16,11 @@ void BatteryViewer::rewoke(DisplayManager *dspMng)
     dspMng->clear();
 }
 
-void BatteryViewer::draw(DisplayManager *dspMng)
+bool BatteryViewer::draw(DisplayManager *dspMng)
 {
     TimeManager *tmmMng = (TimeManager *)mapper->getManager(DSP_MNG);
     if (!tmmMng->isSecond())
-        return;
+        return false;
 
     BatteryManager *btrMng = (BatteryManager *)mapper->getManager(BTR_MNG);
     if (percOld != btrMng->getPercentage())
@@ -42,4 +42,5 @@ void BatteryViewer::draw(DisplayManager *dspMng)
     dspMng->getTFT()->drawNumber(btrMng->getBattVoltage(), 10, 60, 1);
     dspMng->getTFT()->drawNumber(btrMng->getVbusVoltage(), 10, 80, 1);
     dspMng->getTFT()->drawNumber(btrMng->getVbusCurrent(), 10, 100, 1);
+    return false;
 }

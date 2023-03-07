@@ -13,7 +13,7 @@ public:
     Clock();
 
     void rewoke(DisplayManager *dspMng);
-    void draw(DisplayManager *dspMng);
+    bool draw(DisplayManager *dspMng);
 
 private:
     void getAngles(uint16_t minute, uint8_t length, int32_t *x, int32_t *y, uint16_t base=60);

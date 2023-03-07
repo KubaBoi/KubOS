@@ -7,7 +7,7 @@ void Clock::rewoke(DisplayManager *dspMng)
     dspMng->resetDefaultFont();
     dspMng->clear();
     dspMng->getTFT()->drawCircle(x, y, r, WHITE_16);
-    for (uint8_t i = 0; i < 12; i++)
+    for (int i = 0; i < 12; i++)
     {
         int32_t xe, ye;
         getAngles(i, r, &xe, &ye, 12);
@@ -23,12 +23,12 @@ void Clock::rewoke(DisplayManager *dspMng)
     forceDraw = 0;
 }
 
-void Clock::draw(DisplayManager *dspMng)
+bool Clock::draw(DisplayManager *dspMng)
 {
     TimeManager *tmmMng = (TimeManager *)mapper->getManager(TMM_MNG);
 
     if (!tmmMng->isSecond() && !forceDraw)
-        return;
+        return false;
 
     // clear old
     for (uint8_t i = 0; i < 3; i++)
@@ -43,6 +43,7 @@ void Clock::draw(DisplayManager *dspMng)
     dspMng->getTFT()->drawLine(x, y, x + olds[0], y + olds[1], GRAY_16);
     dspMng->getTFT()->drawLine(x, y, x + olds[2], y + olds[3], WHITE_16);
     dspMng->getTFT()->drawLine(x, y, x + olds[4], y + olds[5], RED_16);
+    return false;
 }
 
 void Clock::getAngles(uint16_t minute, uint8_t length, int32_t *xe, int32_t *ye, uint16_t base)

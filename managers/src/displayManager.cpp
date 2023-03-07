@@ -8,7 +8,9 @@ DisplayManager::DisplayManager(ManagerMapper *mappern) : Manager(mappern, "DSP")
     defaultFont->size = 1;
     defaultFont->font = 1;
     deffnt = defaultFont;
+
     tft = mappern->getTTGO()->tft;
+    tft->fillScreen(BLACK_16);
 }
 
 DisplayManager::~DisplayManager() { delete (deffnt); }
@@ -31,15 +33,9 @@ uint16_t DisplayManager::getRGB(uint8_t red, uint8_t green, uint8_t blue)
     return (uint16_t)(r | g | b);
 }
 
-void DisplayManager::clear()
-{
-    tft->fillScreen(defaultFont->bgColor);
-}
+void DisplayManager::clear() { tft->fillScreen(defaultFont->bgColor); }
 
-void DisplayManager::printText(char *text, byte x, byte y)
-{
-    printText(text, x, y, defaultFont);
-}
+void DisplayManager::printText(char *text, byte x, byte y) { printText(text, x, y, defaultFont); }
 
 void DisplayManager::printText(char *text, byte x, byte y, fnt *font)
 {
