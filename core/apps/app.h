@@ -15,9 +15,18 @@ class App
 public:
     ManagerMapper *mapper;
     Logger *logger;
+    uintptr_t *syscallmem;
 
     // App initialization done by core
     void initApp(ManagerMapper *mappern);
+
+    // App start after initApp
+    virtual void start();
+
+    /**
+     * what should be done before sleep of app
+     */
+    virtual void sleep();
 
     /**
      * Rewoke app done by core
@@ -37,7 +46,6 @@ public:
     // Interrupt functions
     virtual void irqInterrupt(AXP20X_Class *power);
     virtual void rtcInterrupt(PCF8563_Class *rtc);
-    
 };
 
 #endif

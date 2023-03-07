@@ -2,10 +2,11 @@
 
 Core::Core()
 {
-	scroll = 0;
 	logger = new Logger();
 	logger->log("KubOS %s", VERSION);
 	logger->log("0x%x Logger", logger);
+
+	setupSyscalls();
 
 	initTTGO();
 	initManagers();
@@ -43,15 +44,51 @@ void Core::updateManagers()
 		Manager *mng = (Manager *)mapper->getManager(i);
 		mng->update();
 	}
+	manageSysCalls();
+}
 
-	IRQManager *irqMng = (IRQManager *)mapper->getManager(IRQ_MNG);
-	if (irqMng->PEKshortPress)
-		nextApp();
+void Core::manageSysCalls()
+{
+	SysCall *syscall = mapper->getSysCalls();
+	if (!syscall)
+		return;
+
+	SysCall *first = syscall;
+	do
+	{
+		switch (syscall->syscall)
+		{
+		case SYS_CALL_CLOSE:
+			syscallCLOSE(syscall, this);
+			break;
+		case SYS_CALL_START:
+			syscallSTART(syscall, this);
+			break;
+		case SYS_CALL_NEXT:
+			syscallNEXT(syscall, this);
+			break;
+		case SYS_CALL_APPS:
+			syscallAPPS(syscall, this);
+			break;
+		}
+		syscall = (SysCall *)syscall->next;
+	} while (first != syscall);
+	mapper->clearSysCalls();
 }
 
 TTGOClass *Core::getTTGO() { return ttgo; }
 
 ManagerMapper *Core::getMapper() { return mapper; }
+
+AppObject *Core::getRunningApp() { return runningApp; }
+
+AppObject *Core::setRunningApp(App *app)
+{
+	AppObject *search = runningApp->find(app);
+	if (search)
+		runningApp = search;
+	return search;
+}
 
 void Core::startApp(App *app, bool rewoke)
 {
@@ -64,6 +101,7 @@ void Core::startApp(App *app, bool rewoke)
 		runningApp = new AppObject(app);
 
 	runningApp->app->initApp(mapper);
+	runningApp->app->start();
 	if (rewoke)
 		runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
 }
@@ -72,8 +110,10 @@ void Core::closeApp()
 {
 	if (!runningApp)
 		return;
-	// maybe need delete (closingApp);
+
+	AppObject *old = runningApp;
 	runningApp = runningApp->remove();
+	delete (old);
 	if (!runningApp)
 		startDesktop();
 	runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
@@ -93,7 +133,7 @@ void Core::updateBackground()
 	do
 	{
 		runningApp->app->updateBackground();
-		runningApp = runningApp->next;
+		runningApp = (AppObject *)runningApp->next;
 	} while (startApp != runningApp);
 }
 
@@ -107,7 +147,16 @@ void Core::drawApps()
 void Core::nextApp()
 {
 	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
-	runningApp = runningApp->next;
+	runningApp->app->sleep();
+	runningApp = (AppObject *)runningApp->next;
+	runningApp->app->rewoke(dspMng);
+}
+
+void Core::prevApp()
+{
+	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
+	runningApp->app->sleep();
+	runningApp = (AppObject *)runningApp->prev;
 	runningApp->app->rewoke(dspMng);
 }
 
@@ -115,4 +164,43 @@ void Core::startDesktop()
 {
 	logger->log("Starting desktop");
 	startApp(new Desktop(), true);
+}
+
+// SYS CALLS
+
+void Core::setupSyscalls()
+{
+	syscalls[SYS_CALL_CLOSE] = (uintptr_t)syscallCLOSE;
+	syscalls[SYS_CALL_START] = (uintptr_t)syscallSTART;
+	syscalls[SYS_CALL_NEXT] = (uintptr_t)syscallNEXT;
+	syscalls[SYS_CALL_APPS] = (uintptr_t)syscallAPPS;
+}
+
+void Core::syscallCLOSE(SysCall *syscall, Core *core)
+{
+	App *app = (App *)*syscall->memory;
+	if (core->setRunningApp(app))
+		core->closeApp();
+	*syscall->memory = (uintptr_t)core->getRunningApp()->app;
+}
+
+void Core::syscallSTART(SysCall *syscall, Core *core)
+{
+	App *app = (App *)*syscall->memory;
+	core->startApp(app);
+	*syscall->memory = (uintptr_t)core->getRunningApp()->app;
+}
+
+void Core::syscallNEXT(SysCall *syscall, Core *core)
+{
+	if (syscall->memory)
+		core->prevApp();
+	else
+		core->nextApp();
+	*syscall->memory = (uintptr_t)core->getRunningApp()->app;
+}
+
+void Core::syscallAPPS(SysCall *syscall, Core *core)
+{
+	*syscall->memory = (uintptr_t)core->getRunningApp()->app;
 }

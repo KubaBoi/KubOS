@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include "config.h"
 #include "logger.h"
+#include "sysCall.h"
 
 #ifndef MANAGER_MAPPER_H
 #define MANAGER_MAPPER_H
@@ -33,12 +34,22 @@ public:
 	// Return logger
 	Logger *getLogger();
 
+	// Return syscalls
+	SysCall *getSysCalls();
+
+	// Clears syscalls
+	void clearSysCalls();
+
+	// set new sysCall
+	bool newSysCall(uintptr_t app, uint8_t syscall, uintptr_t *memory);
+
 private:
 	uintptr_t *addresses;	  // list of addresses of managers
 	unsigned int manCount;	  // size of addresses
 	unsigned int manIter = 0; // count of stored managers
 	TTGOClass *ttgo;		  // pointer to watch object
 	Logger *logger;			  // logger
+	SysCall *syscalls = nullptr;
 };
 
 #endif

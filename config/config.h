@@ -1,3 +1,4 @@
+#include "syscalls.h"
 
 #define LILYGO_WATCH_2020_V3
 #define VERSION "0.0.1"

@@ -86,15 +86,10 @@ void IRQManager::interruptAXP()
     {
         do
         {
-            if (start->app)
-                start->app->irqInterrupt(power);
-            start = start->next;
+            start->app->irqInterrupt(power);
+            start = (AppObject *)start->next;
         } while (start != irqInterrupts);
     }
-    /*PEKshortPress = power->isPEKShortPressIRQ();
-    PEKlongPress = power->isPEKLongtPressIRQ();
-    VBUSremoved = power->isVbusRemoveIRQ();
-    VBUSconnect = power->isVbusPlugInIRQ();*/
 
     power->clearIRQ();
 }
@@ -112,9 +107,8 @@ void IRQManager::interruptRTC()
         AppObject *start = rtcInterrupts;
         do
         {
-            if (start->app)
-                start->app->rtcInterrupt(rtc);
-            start = start->next;
+            start->app->rtcInterrupt(rtc);
+            start = (AppObject *)start->next;
         } while (start != rtcInterrupts);
     }
 }

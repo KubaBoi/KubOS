@@ -30,8 +30,8 @@ public:
     static bool irqRtc;
 
 private:
-    AppObject *irqInterrupts;
-    AppObject *rtcInterrupts;
+    AppObject *irqInterrupts = nullptr;
+    AppObject *rtcInterrupts = nullptr;
 
     void interruptAXP();
     void interruptRTC();

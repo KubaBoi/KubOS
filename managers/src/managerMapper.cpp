@@ -23,3 +23,24 @@ void ManagerMapper::setManager(uintptr_t addr)
 }
 
 Logger *ManagerMapper::getLogger() { return logger; }
+
+SysCall *ManagerMapper::getSysCalls() { return syscalls; }
+
+void ManagerMapper::clearSysCalls()
+{
+	while (syscalls)
+	{
+		SysCall *old = syscalls;
+		syscalls = (SysCall *)syscalls->remove();
+		delete (old);
+	}
+}
+
+bool ManagerMapper::newSysCall(uintptr_t app, uint8_t syscall, uintptr_t *memory)
+{
+	if (syscalls)
+		syscalls = (SysCall *)syscalls->addAfter(new SysCall(app, syscall, memory));
+	else
+		syscalls = new SysCall(app, syscall, memory);
+	return syscalls;
+}
