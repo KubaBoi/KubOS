@@ -5,7 +5,7 @@ Manager::Manager(ManagerMapper *mappern, char *namen)
     mapper = mappern;
     name = namen;
     logger = mapper->getLogger();
-    logger->log("0x%x %s_MNG", this, name);
+    logger->log("%#x %s_MNG", this, name);
 }
 
 void Manager::log(const char *text, ...)

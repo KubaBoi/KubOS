@@ -45,6 +45,7 @@ void setup()
 	ttgo = core->getTTGO();
 	mapper = core->getMapper();
 
+	core->startApp(new BatteryViewer(), false);
 	core->startApp(new Clock());
 
 	/*lv_obj_t *label;

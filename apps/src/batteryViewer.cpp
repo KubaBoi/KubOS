@@ -1,10 +1,20 @@
 #include "batteryViewer.h"
 
-BatteryViewer::BatteryViewer() {}
+BatteryViewer::~BatteryViewer()
+{
+    IRQManager *irqMng = (IRQManager *)mapper->getManager(IRQ_MNG);
+    irqMng->deattachIRQInterrupt(this);
+}
+
+void BatteryViewer::start()
+{
+    IRQManager *irqMng = (IRQManager *)mapper->getManager(IRQ_MNG);
+    irqMng->attachIRQInterrupt(this);
+}
 
 void BatteryViewer::rewoke(DisplayManager *dspMng)
 {
-    if (!font) 
+    if (!font)
     {
         font = (fnt *)malloc(sizeof(fnt));
         font->bgColor = GREEN_16;
@@ -43,4 +53,13 @@ bool BatteryViewer::draw(DisplayManager *dspMng)
     dspMng->getTFT()->drawNumber(btrMng->getVbusVoltage(), 10, 80, 1);
     dspMng->getTFT()->drawNumber(btrMng->getVbusCurrent(), 10, 100, 1);
     return false;
+}
+
+void BatteryViewer::irqInterrupt(AXP20X_Class *power)
+{
+    if (power->isVbusPlugInIRQ())
+    {
+        *syscallmem = (uintptr_t)this;
+        mapper->newSysCall((uintptr_t)this, SYS_CALL_REWOKE, syscallmem);
+    }
 }

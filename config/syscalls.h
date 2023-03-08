@@ -2,11 +2,33 @@
  * Constans for SYS_CALL_H
  */
 #define SYS_CALL_COUNT 4
-// INPUT close app from memory pointer
-#define SYS_CALL_CLOSE 0x0001 
-// INPUT start new app from memory pointer
-#define SYS_CALL_START 0x0002 
-// move running app to next
-#define SYS_CALL_NEXT 0x0003
+/**
+ * Close app
+ * <- memory = address of App which should be closed
+ * -> return address of App after procedure or nullptr if fail
+ */
+#define SYS_CALL_CLOSE 1
+
+/**
+ * Start app
+ * <- memory = address of new instance of an App
+ * -> return address of App after procedure or nullptr if fail
+ */
+#define SYS_CALL_START 2
+
+/**
+ * Next app
+ * <- memory = if 0 then next if anything else then prev
+ * -> return address of App after procedure or nullptr if fail
+ */
+#define SYS_CALL_NEXT 3
+
 // OUTPUT fill memory pointer with nvm
-#define SYS_CALL_APPS 0x0004 
+#define SYS_CALL_APPS 4
+
+/**
+ * Rewoke app
+ * <- memory = address of App to be rewoken
+ * -> return address of App after procedure or nullptr if fail
+ */
+#define SYS_CALL_REWOKE 5

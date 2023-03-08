@@ -4,7 +4,7 @@ Core::Core()
 {
 	logger = new Logger();
 	logger->log("KubOS %s", VERSION);
-	logger->log("0x%x Logger", logger);
+	logger->log("%#x Logger", logger);
 
 	setupSyscalls();
 
@@ -20,13 +20,13 @@ void Core::initTTGO()
 	ttgo->begin();
 	ttgo->openBL();
 	ttgo->lvgl_begin();
-	logger->log("0x%x TTGOClass", ttgo);
+	logger->log("%#x TTGOClass", ttgo);
 }
 
 void Core::initManagers()
 {
 	mapper = new ManagerMapper(ttgo, logger, 10);
-	logger->log("0x%x ManagerMapper", mapper);
+	logger->log("%#x ManagerMapper", mapper);
 	logger->log("Initializing managers:");
 	mapper->setManager((uintptr_t) new IRQManager(mapper));
 	mapper->setManager((uintptr_t) new SleepManager(mapper));
@@ -70,6 +70,11 @@ void Core::manageSysCalls()
 		case SYS_CALL_APPS:
 			syscallAPPS(syscall, this);
 			break;
+		case SYS_CALL_REWOKE:
+			syscallREWOKE(syscall, this);
+			break;
+		default:
+			logger->log("SYS_CALL %#06x missing", syscall->syscall);
 		}
 		syscall = (SysCall *)syscall->next;
 	} while (first != syscall);
@@ -104,6 +109,18 @@ void Core::startApp(App *app, bool rewoke)
 	runningApp->app->start();
 	if (rewoke)
 		runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
+}
+
+App *Core::rewokeApp(App *app)
+{
+	AppObject *ao = runningApp->find(app);
+	if (!ao)
+		return nullptr;
+	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
+	runningApp->app->sleep();
+	runningApp = ao;
+	runningApp->app->rewoke(dspMng);
+	return runningApp->app;
 }
 
 void Core::closeApp()
@@ -203,4 +220,9 @@ void Core::syscallNEXT(SysCall *syscall, Core *core)
 void Core::syscallAPPS(SysCall *syscall, Core *core)
 {
 	*syscall->memory = (uintptr_t)core->getRunningApp()->app;
+}
+
+void Core::syscallREWOKE(SysCall *syscall, Core *core)
+{
+	*syscall->memory = (uintptr_t)core->rewokeApp((App *)syscall->app);
 }

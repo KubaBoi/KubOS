@@ -22,6 +22,8 @@
 /**
  * Main class initializating managers, mapper, TTGOClass
  * and for managing apps
+ * 
+ * doc for syscalls is in config/syscalls.h
  */
 class Core
 {
@@ -52,6 +54,9 @@ public:
     // Start the app
     void startApp(App *app, bool rewoke = true);
 
+    // Rewoke the app
+    App *rewokeApp(App *app);
+
     // Close running app and set prev app as running
     void closeApp();
 
@@ -79,30 +84,11 @@ private:
     void startDesktop();
     void setupSyscalls();
 
-    /**
-     * Close app
-     * SYS_CALL_CLOSE
-     * <- memory = address of App which should be closed
-     * -> return address of runningApp after procedure
-     */
     static void syscallCLOSE(SysCall *syscall, Core *core);
-
-    /**
-     * Start app
-     * SYS_CALL_START
-     * <- memory = address of new instance of an App
-     * -> return address of runningApp after procedure
-     */
     static void syscallSTART(SysCall *syscall, Core *core);
-
-    /**
-     * Next app
-     * SYS_CALL_NEXT
-     * <- memory = if 0 then next if anything else then prev
-     * -> return address of runningApp after procedure
-     */
     static void syscallNEXT(SysCall *syscall, Core *core);
     static void syscallAPPS(SysCall *syscall, Core *core);
+    static void syscallREWOKE(SysCall *syscall, Core *core);
 };
 
 #endif

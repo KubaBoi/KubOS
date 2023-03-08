@@ -12,10 +12,13 @@
 class BatteryViewer : public App
 {
 public:
-    BatteryViewer();
+    ~BatteryViewer();
 
+    void start();
     void rewoke(DisplayManager *dspMng);
     bool draw(DisplayManager *dspMng);
+
+    void irqInterrupt(AXP20X_Class *power);
 
 private:
     fnt *font = nullptr;
