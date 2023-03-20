@@ -4,6 +4,9 @@ BatteryViewer::~BatteryViewer()
 {
     IRQManager *irqMng = (IRQManager *)mapper->getManager(IRQ_MNG);
     irqMng->deattachIRQInterrupt(this);
+
+    if (font)
+        delete font;
 }
 
 void BatteryViewer::start()
@@ -45,10 +48,8 @@ bool BatteryViewer::draw(DisplayManager *dspMng)
     dspMng->getTFT()->drawNumber(btrMng->getPercentage(), 10, 10, 1);
 
     if (btrMng->isCharging())
-        dspMng->printText("    Charging", 10, 40);
-    else
-        dspMng->printText("Not Charging", 10, 40);
-
+        dspMng->printText("Charging", 10, 40);
+    
     dspMng->getTFT()->drawNumber(btrMng->getBattVoltage(), 10, 60, 1);
     dspMng->getTFT()->drawNumber(btrMng->getVbusVoltage(), 10, 80, 1);
     dspMng->getTFT()->drawNumber(btrMng->getVbusCurrent(), 10, 100, 1);

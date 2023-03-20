@@ -34,7 +34,7 @@ void Desktop::update()
 bool Desktop::draw(DisplayManager *dspMng)
 {
     for (int i = 29; i > 0; i--)
-        dspMng->printText(logger->getLastLog(i + scroll), 0, SCREEN_SIZE - i * 8);
+        dspMng->printText(logger->getLastLog(i + scroll), 0, SCREEN_SIZE - i * CHAR_HEIGHT);
     return false;
 }
 

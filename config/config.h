@@ -7,6 +7,9 @@
 #define WINDOW_WIDTH 240
 #define WINDOW_HEIGHT 230
 
+#define CHAR_WIDTH 4
+#define CHAR_HEIGHT 8
+
 #define SHADE_TIME 20 // in seconds
 #define SCREEN_TIME 30 // in seconds
 #define SLEEP_TIME 120 // in seconds

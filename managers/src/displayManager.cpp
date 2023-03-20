@@ -35,11 +35,26 @@ uint16_t DisplayManager::getRGB(uint8_t red, uint8_t green, uint8_t blue)
 
 void DisplayManager::clear() { tft->fillScreen(defaultFont->bgColor); }
 
-void DisplayManager::printText(char *text, byte x, byte y) { printText(text, x, y, defaultFont); }
+void DisplayManager::printText(const char *text, byte x, byte y, ...) 
+{ 
+    va_list values;
+    va_start(values, y);
+    printText(text, x, y, defaultFont, values); 
+}
 
-void DisplayManager::printText(char *text, byte x, byte y, fnt *font)
+void DisplayManager::printText(const char *text, byte x, byte y, fnt *font, ...)
 {
+    va_list values;
+    va_start(values, font);
+    printText(text, x, y, font, values);
+}
+
+void DisplayManager::printText(const char *text, byte x, byte y, fnt *font, va_list values)
+{
+    char *prepstr = (char *)malloc(LOGGER_MAX_LENGTH);
+    vsnprintf(prepstr, LOGGER_MAX_LENGTH, text, values);
     tft->setTextColor(font->color, font->bgColor);
     tft->setTextSize(font->size);
-    tft->drawString(text, x, y, font->font);
+    tft->drawString(prepstr, x, y, font->font);
+    delete prepstr;
 }

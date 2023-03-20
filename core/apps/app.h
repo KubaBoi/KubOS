@@ -23,9 +23,7 @@ public:
     // App start after initApp
     virtual void start();
 
-    /**
-     * what should be done before sleep of app
-     */
+    // what should be done before sleep of app
     virtual void sleep();
 
     /**

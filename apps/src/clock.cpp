@@ -1,7 +1,5 @@
 #include "clock.h"
 
-Clock::Clock() {}
-
 void Clock::rewoke(DisplayManager *dspMng)
 {
     dspMng->resetDefaultFont();

@@ -1,3 +1,6 @@
+#include <string.h>
+#include <stdarg.h>
+
 #include "config.h"
 #include "colors.h"
 
@@ -47,11 +50,12 @@ public:
     // Clear display with backgroundColor
     void clear();
 
-    // Print test at coordinates x, y
-    void printText(char *text, byte x, byte y);
+    // Print text at coordinates x, y with values
+    void printText(const char *text, byte x, byte y, ...);
 
-    // Print text with parameters defined in font
-    void printText(char *text, byte x, byte y, fnt *font);
+    // Print text as format with parameters defined in font with values
+    void printText(const char *text, byte x, byte y, fnt *font, ...);
+    void printText(const char *text, byte x, byte y, fnt *font, va_list values);
 
 private:
     TFT_eSPI *tft;

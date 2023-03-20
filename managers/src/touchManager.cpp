@@ -2,7 +2,7 @@
 
 TouchManager::TouchManager(ManagerMapper *mappern) : Manager(mappern, "TCH")
 {
-    vx, vy, distance = 0;
+    vx, vy, distance, isTch = 0;
 }
 
 void TouchManager::update()
@@ -19,7 +19,6 @@ void TouchManager::update()
         distance = sqrt((vx * vx) + (vy * vy));
         if (distance >= MIN_DRAG_DIST)
             isDrg = true;
-        
     }
     else if (!isTch && nIsTch)
     {
@@ -36,6 +35,8 @@ bool TouchManager::isTouch(int16_t *xn, int16_t *yn)
     *yn = y;
     return isTch;
 }
+
+bool TouchManager::isTouch() { return isTch; }
 
 bool TouchManager::isDrag(int16_t *xn, int16_t *yn, double *dist)
 {

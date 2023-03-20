@@ -21,6 +21,7 @@ public:
      * with coordinates of touch
      */
     bool isTouch(int16_t *xn, int16_t *yn);
+    bool isTouch();
 
     /**
      * Return true if display is dragged and fill xn and yn

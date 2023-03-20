@@ -10,8 +10,6 @@
 class Clock : public App
 {
 public:
-    Clock();
-
     void rewoke(DisplayManager *dspMng);
     bool draw(DisplayManager *dspMng);
 
