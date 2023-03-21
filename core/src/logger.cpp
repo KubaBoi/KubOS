@@ -5,7 +5,7 @@ Logger::Logger()
     for (int i = 0; i < LOGGER_SIZE; i++)
     {
         memset(logs[i], ' ', LOGGER_LENGTH);
-        logs[i][LOGGER_LENGTH] = 0;
+        logs[i][LOGGER_LENGTH - 1] = 0;
     }
 }
 
@@ -32,7 +32,7 @@ void Logger::__savelog(char *msg)
     else
     {
         memset(alog + length, ' ', LOGGER_LENGTH - length);
-        alog[LOGGER_LENGTH] = 0;
+        alog[LOGGER_LENGTH - 1] = 0;
     }
 }
 

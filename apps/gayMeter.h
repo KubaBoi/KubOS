@@ -9,11 +9,13 @@
 class GayMeter : public App
 {
 public:
-    void rewoke(DisplayManager *dspMng);
-    void update();
-    bool draw(DisplayManager *dspMng);
+    GayMeter();
+
+    void rewoke();
 private:
     uint8_t gayValue;
+
+    static void click(lv_obj_t *obj, lv_event_t event);
 };
 
 #endif

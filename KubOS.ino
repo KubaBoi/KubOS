@@ -25,18 +25,6 @@ Core *core;
 TTGOClass *ttgo;
 ManagerMapper *mapper;
 
-static void event_handler(lv_obj_t *obj, lv_event_t event)
-{
-	if (event == LV_EVENT_CLICKED)
-	{
-		Serial.printf("Clicked\n");
-	}
-	else if (event == LV_EVENT_VALUE_CHANGED)
-	{
-		Serial.printf("Toggled\n");
-	}
-}
-
 void setup()
 {
 	Serial.begin(115200);
@@ -49,6 +37,7 @@ void setup()
 	core->startApp(new BatteryViewer(), false);
 	core->startApp(new Clock());
 	core->startApp(new GayMeter());
+	core->startApp(new Window());
 
 	// core->startApp(new Window());
 	// core->startApp(new BatteryViewer(), false);

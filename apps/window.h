@@ -7,9 +7,7 @@
 class Window : public App
 {
 public:
-    Window();
-
-    void rewoke(DisplayManager *dspMng);
+    void rewoke();
     bool draw(DisplayManager *dspMng);
 };
 

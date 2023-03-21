@@ -108,18 +108,33 @@ void Core::startApp(App *app, bool rewoke)
 	runningApp->app->initApp(mapper);
 	runningApp->app->start();
 	if (rewoke)
-		runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
+		rewokeApp(runningApp);
 }
 
 App *Core::rewokeApp(App *app)
 {
 	AppObject *ao = runningApp->find(app);
+	return rewokeApp(ao);
+}
+
+App *Core::rewokeApp(AppObject *ao)
+{
 	if (!ao)
 		return nullptr;
-	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
+	if (!ao->app)
+		return nullptr;
+
+	if (desktop)
+		desktop->rewokeOnBc(ao->app);
+	else
+		logger->log("W: Desktop was not found");
+
 	runningApp->app->sleep();
 	runningApp = ao;
-	runningApp->app->rewoke(dspMng);
+	runningApp->app->rewoke();
+	if (runningApp->app->screen)
+		lv_scr_load(runningApp->app->screen);
+
 	return runningApp->app;
 }
 
@@ -133,7 +148,7 @@ void Core::closeApp()
 	delete (old);
 	if (!runningApp)
 		startDesktop();
-	runningApp->app->rewoke((DisplayManager *)mapper->getManager(DSP_MNG));
+	rewokeApp(runningApp);
 }
 
 void Core::updateApps()
@@ -156,31 +171,27 @@ void Core::updateBackground()
 
 void Core::drawApps()
 {
-	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
-	if (runningApp->app->draw(dspMng))
+	if (runningApp->app->screen)
 		lv_task_handler();
+	else
+	{
+		DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
+		if (!runningApp->app->draw(dspMng))
+		{
+			desktop->update();
+			desktop->draw(dspMng);
+		}
+	}
 }
 
-void Core::nextApp()
-{
-	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
-	runningApp->app->sleep();
-	runningApp = (AppObject *)runningApp->next;
-	runningApp->app->rewoke(dspMng);
-}
+void Core::nextApp() { rewokeApp((AppObject *)runningApp->next); }
 
-void Core::prevApp()
-{
-	DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
-	runningApp->app->sleep();
-	runningApp = (AppObject *)runningApp->prev;
-	runningApp->app->rewoke(dspMng);
-}
+void Core::prevApp() { rewokeApp((AppObject *)runningApp->prev); }
 
 void Core::startDesktop()
 {
-	logger->log("Starting desktop");
-	startApp(new Desktop(), true);
+	desktop = new Desktop();
+	startApp(desktop);
 }
 
 // SYS CALLS

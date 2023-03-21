@@ -15,8 +15,11 @@ AppObject *AppObject::remove(bool deleteApp)
 {
     AppObject *ret = nullptr;
     if (deleteApp && this->app)
+    {
+        if (this->app->screen);
+            lv_obj_del(this->app->screen);
         delete (this->app);
-
+    }
     return (AppObject *)ChainList::remove();
 }
 

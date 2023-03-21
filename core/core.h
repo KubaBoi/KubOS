@@ -56,6 +56,7 @@ public:
 
     // Rewoke the app
     App *rewokeApp(App *app);
+    App *rewokeApp(AppObject *ao);
 
     // Close running app and set prev app as running
     void closeApp();
@@ -74,6 +75,7 @@ public:
 
 private:
     AppObject *runningApp = nullptr;
+    Desktop *desktop = nullptr;
 
     TTGOClass *ttgo;
     ManagerMapper *mapper;

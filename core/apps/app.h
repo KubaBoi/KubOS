@@ -17,6 +17,11 @@ public:
     Logger *logger;
     uintptr_t *syscallmem;
 
+    lv_obj_t *screen = nullptr;
+    const char *name;
+
+    App(const char *namen = nullptr);
+
     // App initialization done by core
     void initApp(ManagerMapper *mappern);
 
@@ -30,7 +35,7 @@ public:
      * Rewoke app done by core
      * what should be done when apps are switched
      */
-    virtual void rewoke(DisplayManager *dspMng);
+    virtual void rewoke();
 
     // update of every application
     virtual void update();
@@ -38,7 +43,14 @@ public:
     // Update done by app when it is on background
     virtual void updateBackground();
 
-    // Draw of application - return true of LVGL needed
+    /*
+     * Draw of application
+     * return false if app want to draw itself
+     * return true if app want to desktop (log) draw
+     * 
+     * if `screen` of app is not nullptr 
+     * this function would not be called
+     */
     virtual bool draw(DisplayManager *dspMng);
 
     // Interrupt functions

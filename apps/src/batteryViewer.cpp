@@ -1,5 +1,7 @@
 #include "batteryViewer.h"
 
+BatteryViewer::BatteryViewer() : App("Battery Viewer") {}
+
 BatteryViewer::~BatteryViewer()
 {
     IRQManager *irqMng = (IRQManager *)mapper->getManager(IRQ_MNG);
@@ -15,8 +17,9 @@ void BatteryViewer::start()
     irqMng->attachIRQInterrupt(this);
 }
 
-void BatteryViewer::rewoke(DisplayManager *dspMng)
+void BatteryViewer::rewoke()
 {
+    DisplayManager *dspMng = (DisplayManager *)mapper->getManager(DSP_MNG);
     if (!font)
     {
         font = (fnt *)malloc(sizeof(fnt));
@@ -33,7 +36,7 @@ bool BatteryViewer::draw(DisplayManager *dspMng)
 {
     TimeManager *tmmMng = (TimeManager *)mapper->getManager(DSP_MNG);
     if (!tmmMng->isSecond())
-        return false;
+        return true;
 
     BatteryManager *btrMng = (BatteryManager *)mapper->getManager(BTR_MNG);
     if (percOld != btrMng->getPercentage())
@@ -53,7 +56,7 @@ bool BatteryViewer::draw(DisplayManager *dspMng)
     dspMng->getTFT()->drawNumber(btrMng->getBattVoltage(), 10, 60, 1);
     dspMng->getTFT()->drawNumber(btrMng->getVbusVoltage(), 10, 80, 1);
     dspMng->getTFT()->drawNumber(btrMng->getVbusCurrent(), 10, 100, 1);
-    return false;
+    return true;
 }
 
 void BatteryViewer::irqInterrupt(AXP20X_Class *power)

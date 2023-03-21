@@ -1,10 +1,7 @@
 #include "window.h"
 
-Window::Window() : App() {}
-
-void Window::rewoke(DisplayManager *dspMng)
+void Window::rewoke()
 {
-    
 }
 
 bool Window::draw(DisplayManager *dsp)
