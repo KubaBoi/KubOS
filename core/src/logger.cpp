@@ -1,7 +1,8 @@
 #include "logger.h"
 
-Logger::Logger()
+Logger::Logger(FileSystem *fsn)
 {
+    fs = fsn;
     for (int i = 0; i < LOGGER_SIZE; i++)
     {
         memset(logs[i], ' ', LOGGER_LENGTH);

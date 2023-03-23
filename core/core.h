@@ -1,8 +1,10 @@
 #include <stdint.h>
 #include <vector>
 
+#include "filesystem.h"
 #include "logger.h"
 #include "config.h"
+
 #include "managerMapper.h"
 #include "irqManager.h"
 #include "sleepManager.h"
@@ -11,7 +13,6 @@
 #include "touchManager.h"
 #include "displayManager.h"
 #include "alarmManager.h"
-#include "fileManager.h"
 
 #include "appObject.h"
 #include "app.h"
@@ -37,6 +38,8 @@ public:
     // Update managers
     void updateManagers();
 
+    // Get fileSystem
+    FileSystem *getFS();
     // Getter of TTGOClass
     TTGOClass *getTTGO();
     // Getter of ManagerMapper
@@ -74,9 +77,10 @@ private:
     AppObject *runningApp = nullptr;
     Desktop *desktop = nullptr;
 
+    FileSystem *fs;
+    Logger *logger;
     TTGOClass *ttgo;
     ManagerMapper *mapper;
-    Logger *logger;
 
     uintptr_t syscalls[SYS_CALL_COUNT];
 

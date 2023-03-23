@@ -2,7 +2,9 @@
 
 Core::Core()
 {
-	logger = new Logger();
+	fs = new FileSystem();
+
+	logger = new Logger(fs);
 	logger->log("KubOS %s", VERSION);
 	logger->log("%#x Logger", logger);
 
@@ -35,7 +37,6 @@ void Core::initManagers()
 	mapper->setManager((uintptr_t) new TouchManager(mapper));
 	mapper->setManager((uintptr_t) new DisplayManager(mapper));
 	mapper->setManager((uintptr_t) new AlarmManager(mapper));
-	mapper->setManager((uintptr_t) new FileManager(mapper));
 }
 
 void Core::updateManagers()
@@ -84,6 +85,8 @@ void Core::manageSysCalls()
 	} while (first != syscall);
 	mapper->clearSysCalls();
 }
+
+FileSystem *Core::getFS() { return fs; }
 
 TTGOClass *Core::getTTGO() { return ttgo; }
 

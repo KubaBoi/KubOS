@@ -3,6 +3,7 @@
 #include <stdarg.h>
 
 #include "config.h"
+#include "filesystem.h"
 
 #ifndef LOGGER_H
 #define LOGGER_H
@@ -17,7 +18,7 @@
 class Logger
 {
 public:
-    Logger();
+    Logger(FileSystem *fsn);
 
     // Save `msg` into memory
     void log(const char msg[LOGGER_MAX_LENGTH], ...);
@@ -38,6 +39,7 @@ private:
     char logs[LOGGER_SIZE][LOGGER_LENGTH];
     char prepstr[LOGGER_MAX_LENGTH];
     uint8_t iterator = 0; // index of last message
+    FileSystem *fs;
 
     void __savelog(char *msg);
 
