@@ -12,12 +12,21 @@ void Manager::log(const char *text, ...)
 {
     va_list valist;
     va_start(valist, text);
+    logger->vlog(text, valist, 0, "%s: ", name);
+}
 
-    char txt[strlen(name)];
-    strcpy(txt, name);
-    strcat(txt, "_MNG: ");
-    strcat(txt, text);
-    logger->vlog(txt, valist);
+void Manager::err(const char *text, ...)
+{
+    va_list valist;
+    va_start(valist, text);
+    logger->vlog(text, valist, 1, "%s: ", name);
+}
+
+void Manager::war(const char *text, ...)
+{
+    va_list valist;
+    va_start(valist, text);
+    logger->vlog(text, valist, 2, "%s: ", name);
 }
 
 void Manager::update() {}

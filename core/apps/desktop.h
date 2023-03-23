@@ -29,7 +29,7 @@ public:
     void irqInterrupt(AXP20X_Class *power);
 
 private:
-    int8_t scroll;
+    uint8_t scroll;
     char *appName = nullptr;
     fnt *headerFont;
 };

@@ -32,3 +32,10 @@
  * -> return address of App after procedure or nullptr if fail
  */
 #define SYS_CALL_REWOKE 5
+
+/**
+ * Kill app and log reason 
+ * <- memory = (const char *) reason for killing
+ * -> return address of new App after procedure or null if fail
+ */
+#define SYS_CALL_KILL 6

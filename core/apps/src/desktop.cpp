@@ -1,6 +1,6 @@
 #include "desktop.h"
 
-Desktop::Desktop() : App("Desktop") 
+Desktop::Desktop() : App("Desktop", false) 
 {
     appName = (char *)malloc(LOGGER_LENGTH);
     appName[0] = 0;
@@ -48,13 +48,15 @@ void Desktop::update()
     double dist;
     if (!tchMng->isDrag(&x, &y, &dist))
         return;
-    scroll = y / 4;
-    if (scroll < 0)
-        scroll = 0;
+    if (y)
+        scroll += (y / abs(y)) * (10 / abs(y) + 1);
 }
 
 bool Desktop::draw(DisplayManager *dspMng)
 {
+    TFT_eSPI *tft = dspMng->getTFT();
+    tft->drawRect(WINDOW_WIDTH - 2, CHAR_HEIGHT, 2, WINDOW_HEIGHT, dspMng->getDefaultFont()->bgColor);
+    tft->drawRect(WINDOW_WIDTH - 2, WINDOW_HEIGHT - scroll - 1, 2, 4, dspMng->getDefaultFont()->color);
     dspMng->printText("=> %s", 0, 0, headerFont, appName);
     for (int i = 29; i > 0; i--)
         dspMng->printText(logger->getLastLog(i + scroll), 0, SCREEN_SIZE - i * CHAR_HEIGHT);

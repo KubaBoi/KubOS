@@ -1,6 +1,6 @@
 #include "clock.h"
 
-Clock::Clock() : App("Clock") {}
+Clock::Clock() : App("Clock", false) {}
 
 void Clock::rewoke()
 {

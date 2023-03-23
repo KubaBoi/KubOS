@@ -1,4 +1,4 @@
-#include <stdlib.h> 
+#include <stdlib.h>
 
 #include "app.h"
 #include "touchManager.h"
@@ -9,13 +9,17 @@
 class GayMeter : public App
 {
 public:
+    lv_obj_t *gayLabel, *gayCommLabel;
+    uint16_t choosing;
+
     GayMeter();
 
-    void rewoke();
-private:
-    uint8_t gayValue;
+    void update();
 
+private:
     static void click(lv_obj_t *obj, lv_event_t event);
+
+    static char comments[10][100];
 };
 
 #endif

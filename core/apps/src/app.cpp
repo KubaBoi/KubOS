@@ -1,14 +1,17 @@
 #include "app.h"
 
-App::App(const char *namen)
+App::App(const char *namen, bool needScreen)
 {
+    if (needScreen)
+        screen = lv_obj_create(NULL, NULL);
+
     name = namen;
     if (name)
         return;
-    
-    char *namec = (char*)malloc(LOGGER_LENGTH);
+
+    char *namec = (char *)malloc(LOGGER_LENGTH);
     snprintf(namec, LOGGER_LENGTH, "Unknown 0x%x", this);
-    name = (const char*)namec;
+    name = (const char *)namec;
 }
 
 void App::initApp(ManagerMapper *mappern)
@@ -19,8 +22,8 @@ void App::initApp(ManagerMapper *mappern)
     logger->log("0x%x %s", this, name);
 }
 
-void App::start() {};
-void App::sleep() {};
+void App::start(){};
+void App::sleep(){};
 void App::rewoke() {}
 void App::update() {}
 void App::updateBackground() {}

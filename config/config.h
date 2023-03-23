@@ -21,6 +21,6 @@
 #define MIN_DRAG_DIST 5 // minimal drag distance
 
 #define LILYGO_WATCH_LVGL   
-// #define LILYGO_WATCH_LVGL_FS 
+#define LILYGO_WATCH_LVGL_FS 
 
 #include <LilyGoWatch.h>

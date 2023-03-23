@@ -7,6 +7,9 @@
 #ifndef APP_H
 #define APP_H
 
+#define SELF_APP (uintptr_t)lv_obj_get_user_data(obj)
+#define SELF_APP_ADDR (lv_obj_user_data_t)this
+
 /**
  * Class for application inheritance
  */
@@ -20,7 +23,7 @@ public:
     lv_obj_t *screen = nullptr;
     const char *name;
 
-    App(const char *namen = nullptr);
+    App(const char *namen = nullptr, bool needScreen = true);
 
     // App initialization done by core
     void initApp(ManagerMapper *mappern);

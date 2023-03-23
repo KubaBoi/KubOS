@@ -1,6 +1,6 @@
 #include "batteryViewer.h"
 
-BatteryViewer::BatteryViewer() : App("Battery Viewer") {}
+BatteryViewer::BatteryViewer() : App("Battery Viewer", false) {}
 
 BatteryViewer::~BatteryViewer()
 {

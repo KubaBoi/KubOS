@@ -11,6 +11,7 @@
 #include "touchManager.h"
 #include "displayManager.h"
 #include "alarmManager.h"
+#include "fileManager.h"
 
 #include "appObject.h"
 #include "app.h"
@@ -33,14 +34,8 @@ public:
      */
     Core();
 
-    // Initialization of TTGOClass and turning backlights on
-    void initTTGO();
-    // Initialization of mapper and managers
-    void initManagers();
     // Update managers
     void updateManagers();
-    // Manage all syscalls
-    void manageSysCalls();
 
     // Getter of TTGOClass
     TTGOClass *getTTGO();
@@ -50,6 +45,8 @@ public:
     AppObject *getRunningApp();
     // Find and set runningApp and return found AppObject
     AppObject *setRunningApp(App *app);
+
+    void openDesktop();
 
     // Start the app
     void startApp(App *app, bool rewoke = true);
@@ -83,6 +80,13 @@ private:
 
     uintptr_t syscalls[SYS_CALL_COUNT];
 
+    // Initialization of TTGOClass and turning backlights on
+    void initTTGO();
+    // Initialization of mapper and managers
+    void initManagers();
+    // Manage all syscalls
+    void manageSysCalls();
+
     void startDesktop();
     void setupSyscalls();
 
@@ -91,6 +95,7 @@ private:
     static void syscallNEXT(SysCall *syscall, Core *core);
     static void syscallAPPS(SysCall *syscall, Core *core);
     static void syscallREWOKE(SysCall *syscall, Core *core);
+    static void syscallKILL(SysCall *syscall, Core *core);
 };
 
 #endif

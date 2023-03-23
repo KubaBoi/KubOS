@@ -35,6 +35,7 @@ void Core::initManagers()
 	mapper->setManager((uintptr_t) new TouchManager(mapper));
 	mapper->setManager((uintptr_t) new DisplayManager(mapper));
 	mapper->setManager((uintptr_t) new AlarmManager(mapper));
+	mapper->setManager((uintptr_t) new FileManager(mapper));
 }
 
 void Core::updateManagers()
@@ -73,6 +74,9 @@ void Core::manageSysCalls()
 		case SYS_CALL_REWOKE:
 			syscallREWOKE(syscall, this);
 			break;
+		case SYS_CALL_KILL:
+			syscallKILL(syscall, this);
+			break;
 		default:
 			logger->log("SYS_CALL %#06x missing", syscall->syscall);
 		}
@@ -91,8 +95,18 @@ AppObject *Core::setRunningApp(App *app)
 {
 	AppObject *search = runningApp->find(app);
 	if (search)
+	{
 		runningApp = search;
+		rewokeApp(runningApp);
+	}
 	return search;
+}
+
+void Core::openDesktop()
+{
+	AppObject *rn = setRunningApp((App *)desktop);
+	if (!rn)
+		startDesktop();
 }
 
 void Core::startApp(App *app, bool rewoke)
@@ -236,4 +250,19 @@ void Core::syscallAPPS(SysCall *syscall, Core *core)
 void Core::syscallREWOKE(SysCall *syscall, Core *core)
 {
 	*syscall->memory = (uintptr_t)core->rewokeApp((App *)syscall->app);
+}
+
+void Core::syscallKILL(SysCall *syscall, Core *core)
+{
+	App *app = (App *)syscall->app;
+	core->logger->err("Killed: %s 0x%x", app->name, syscall->app);
+	core->logger->err("Because: %s", (char *)syscall->memory);
+
+	AppObject *rnApp = core->runningApp;
+	core->runningApp = core->runningApp->find(app);
+	bool isSame = (rnApp == core->runningApp);
+	core->closeApp();
+	if (isSame)
+		return;
+	core->runningApp = rnApp;
 }
