@@ -13,6 +13,7 @@
 #include "touchManager.h"
 #include "displayManager.h"
 #include "alarmManager.h"
+#include "wifiManager.h"
 
 #include "appObject.h"
 #include "app.h"

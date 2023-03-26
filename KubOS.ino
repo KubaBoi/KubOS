@@ -10,14 +10,6 @@
 #include "logger.h"
 #include "core.h"
 
-#include "managerMapper.h"
-#include "sleepManager.h"
-#include "batteryManager.h"
-#include "timeManager.h"
-#include "touchManager.h"
-#include "displayManager.h"
-#include "alarmManager.h"
-
 #include "clock.h"
 #include "batteryViewer.h"
 #include "gayMeter.h"
@@ -25,6 +17,7 @@
 Core *core;
 TTGOClass *ttgo;
 ManagerMapper *mapper;
+Logger *logger;
 
 void setup()
 {
@@ -34,23 +27,15 @@ void setup()
 
 	ttgo = core->getTTGO();
 	mapper = core->getMapper();
+	logger = mapper->getLogger();
 
 	core->startApp(new BatteryViewer(), false);
 	core->startApp(new GayMeter(), false);
 	core->startApp(new Clock());
-	//core->openDesktop();
+	core->openDesktop();
 
-	FileSystem *fs = core->getFS();
-	fs->listAllFiles();
-	fs->writeFile("/ahoj.txt", "gagagag");
-	fs->writeFile("/ahoj2.txt", "gaergerggagag");
-	fs->writeFile("/ahoj3.txt", "gagaga5544g");
-	fs->writeFile("/aho4.txt", "gfgagagag");
-	
-	char targ[LOGGER_MAX_LENGTH];
-	if (fs->readFile("/ahoj.txt", targ))
-		core->getMapper()->getLogger()->log("%s", targ);
-	core->getMapper()->getLogger()->log("%s", fs->listAllFiles());
+	WifiManager *wfiMng = (WifiManager *)mapper->getManager(WIF_MNG);
+	wfiMng->connect("vivo Y33s", "heslo1212");
 }
 
 void loop()

@@ -37,6 +37,7 @@ void Core::initManagers()
 	mapper->setManager((uintptr_t) new TouchManager(mapper));
 	mapper->setManager((uintptr_t) new DisplayManager(mapper));
 	mapper->setManager((uintptr_t) new AlarmManager(mapper));
+	mapper->setManager((uintptr_t) new WifiManager(mapper));
 }
 
 void Core::updateManagers()

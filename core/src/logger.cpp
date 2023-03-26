@@ -46,14 +46,6 @@ void Logger::vlog(const char *msg, va_list valist, uint8_t channel, const char *
     delete pref;
 }
 
-void Logger::vvlog(const char *msg, ...)
-{
-    va_list valist;
-    va_start(valist, msg);
-    vsnprintf(prepstr, LOGGER_MAX_LENGTH, msg, valist);
-    __savelog(prepstr);
-}
-
 void Logger::vvlog(const char *msg, va_list valist, const char *prefix, va_list valist2)
 {
     prepstr[0] = 0;

@@ -23,7 +23,7 @@ public:
      * return -1 - file does not exist
      * return -2 - cannot open file
      * return 0>= - count of readed bytes
-    */
+     */
     int readFile(const char *path, char *dest);
 
     // write into the path file and return count of written bytes
@@ -35,7 +35,11 @@ public:
     // Return true if file exists
     bool exists(const char *path);
 
-    // Format disk
+    /**
+     * Format disk
+     * take some time (about 5-10 seconds)
+     * should not be used frequently
+     */
     int format();
 };
 

@@ -26,7 +26,6 @@ public:
     void war(const char msg[LOGGER_MAX_LENGTH], ...);
     void vlog(const char msg[LOGGER_MAX_LENGTH], va_list valist, uint8_t channel);
     void vlog(const char msg[LOGGER_MAX_LENGTH], va_list valist, uint8_t channel, const char prefix[LOGGER_LENGTH], ...);
-    void vvlog(const char msg[LOGGER_MAX_LENGTH], ...);
     void vvlog(const char msg[LOGGER_MAX_LENGTH], va_list valist, const char prefix[LOGGER_LENGTH], va_list valist2);
 
     // Return iterator
