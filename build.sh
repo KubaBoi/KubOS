@@ -1,3 +1,1 @@
-make cleanAll
-make KubOS.bin
-make KubOS.iso
+make clean;make KubOS.bin;make KubOS.iso

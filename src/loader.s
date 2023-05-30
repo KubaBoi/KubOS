@@ -16,10 +16,12 @@
 
 loader:
     mov $kernel_stack, %esp
+    movw $handler, 0x00
     call callConstructors
     push %eax
     push %ebx
     call kernelMain
+    call inter
 
 
 _stop:
@@ -27,6 +29,9 @@ _stop:
     hlt
     jmp _stop
 
+handler:
+    call inter
+    iret
 
 .section .bss
 .space 2*1024*1024; # 2 MiB

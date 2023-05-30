@@ -1,10 +1,13 @@
 
+static unsigned short videoIterator = 0;
+
 void print(char* str) 
 {
     static unsigned short* VideoMemory = (unsigned short*)0xb8000;
 
-    for (int i = 0; str[i] != '\0'; ++i) {
-        VideoMemory[i] = (VideoMemory[i] & 0xFF00) | str[i];
+    for (int i = 0; str[i] != 0; i++) {
+        VideoMemory[videoIterator] = (VideoMemory[videoIterator] & 0xFF00) | str[i];
+        videoIterator++;
     }
 }
 
@@ -18,10 +21,19 @@ extern "C" void callConstructors()
 }
 
 
-extern "C" void kernelMain(const void* multiboot_structure, unsigned int /*multiboot_magic*/) {
+extern "C" void kernelMain(const void* multiboot_structure, unsigned int /*multiboot_magic*/) 
+{
     print("Hello :)");
 
-    while(true) {
-        print("Hello\n");
+    char a[2] = {1, 0};
+    while(a[0] > 0) {
+        //print(a);
+        a[0]++;
+        a[0] = 2;
     }
+}
+
+extern "C" void inter() 
+{
+    print("Interrupt");
 }
