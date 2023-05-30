@@ -8,3 +8,11 @@
 ## build
 
 - ./build.sh 
+
+## troubleshoot
+
+connection refused
+
+- apt-get install grub-pc-bin
+- rebuild
+- run
