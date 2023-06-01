@@ -39,3 +39,8 @@ https://wiki.osdev.org/Babystep1
 - `DI` contains offset of mem address (better increase by 2)
 - `AX` contains 2 byte "object"
 - `stows` copy from `AX` to memory pointed by `ES:DI`  
+- it is splited in 2 byte "object"
+    - char
+    - attribute
+        - 0xF0 - white bc, black text
+        - 0x0F - black bc, white text

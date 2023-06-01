@@ -2,12 +2,12 @@
 bios_print:
     lodsb
     or al, al  ;zero=end of str
-    jz done    ;get out
+    jz bios_print_done    ;get out
     mov ah, 0x0E
     mov bh, 0
     int 0x10
     jmp bios_print
-done:
+bios_print_done:
     ret
 
 ;-----------------------------------------------
@@ -15,8 +15,22 @@ dochar:
     call cprint  
     jmp sprint    
 newline:
-    add byte [ypos], 1
-    mov byte [xpos], 0 
+    mov ax, [cursor]
+    mov cx, SCREEN_WIDTH
+    xor dx, dx
+    div cx ; dx is modulo ax is result
+    sub cx, dx
+    xor al, al
+    mov ah, 0x0F
+    newline_loop:
+        movzx bx, byte [cursor]
+        mov di, bx
+        stosw
+        add byte [cursor], 2
+        sub cx, 2
+        cmp cx, 0
+        jg newline_loop
+
 ; Print string from SI 
 ; ES need to be set to 0xb800 
 sprint:   
@@ -28,22 +42,16 @@ sprint:
     ret
  
 ; Print one character from AL
+; ES need to be set to 0xb800 
 cprint:   
     mov ah, 0x0F   ; attrib = black on white
     mov cx, ax    ; save char/attribute
-    movzx ax, byte [ypos]
-    mov dx, 160   ; 2 bytes (char/attrib)
-    mul dx      ; for 80 columns, AX is used as multiplicant and result
-    movzx bx, byte [xpos]
-    shl bx, 1    ; times 2 to skip attrib
-    
-    mov di, 0        ; start of video memory
-    add di, ax      ; add y offset
-    add di, bx      ; add x offset
+    movzx ax, byte [cursor]
+    mov di, ax      ; set offset
     
     mov ax, cx        ; restore char/attribute
     stosw              ; write char/attribute
-    add byte [xpos], 1  ; advance to right
+    add byte [cursor], 2  ; advance to right
     
     ret
 ;-----------------------------------------------
@@ -70,24 +78,29 @@ hexloop:
     ret
 ;-----------------------------------------------
 
-clear:
+clearscreen:
     mov ax, 0xb800 
     mov es, ax 
-    mov al, 0    ; char
+    mov al, '_'   ; char
     mov ah, 0x0F ; attr
     
     xor cx, cx
-    clear_loop:
+    clearscreen_loop:
         xor di, di
         add di, cx
         stosw
         add cx, 2
         cmp cx, VIDEO_MEM_SZ
-        jle clear_loop
+        jle clearscreen_loop
     ret
 ;-----------------------------------------------
 
+VIDEO_MEM_SZ equ 3999
+SCREEN_WIDTH equ 160
+
+cursor db 0
+xpos   db 0
+ypos   db 0
 hexstr   db '0123456789ABCDEF'
 outstr16   db '0000', 0  ;register value string
 reg16   dw    0  ; pass values to printreg16
-VIDEO_MEM_SZ equ 3999 ; cannot be more coz fall
