@@ -16,3 +16,13 @@ connection refused
 - apt-get install grub-pc-bin
 - rebuild
 - run
+
+## build
+
+https://wiki.osdev.org/Babystep1
+
+`nasm boot.asm -f bin -o boot.bin`
+
+## run
+
+`qemu-system-i386 -hda boot.bin`
