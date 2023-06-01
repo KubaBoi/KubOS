@@ -1,8 +1,9 @@
+[ORG 0x7c00]      ; add to offsets
     jmp main
-
+    
+    %include "lib/print.inc"
 
 main:
-[ORG 0x7c00]      ; add to offsets
     xor ax, ax    ; make it zero
     mov ds, ax   ; DS=0
     mov ss, ax   ; stack starts at 0
@@ -20,7 +21,7 @@ main:
     
     mov ax, 0xb800   ; look at video mem
     mov gs, ax
-    mov bx, 0x0000   ; 'W'=57 attrib=0F
+    mov bx, 0x0000   ; 'H'=48 attrib=0F
     mov ax, [gs:bx]
 
     mov word [reg16], ax
@@ -28,8 +29,6 @@ main:
  
 hang:
     jmp hang
-
-%include "lib/print.inc"
 
 xpos   db 0
 ypos   db 0

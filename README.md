@@ -30,3 +30,12 @@ https://wiki.osdev.org/Babystep1
 ## run
 
 `qemu-system-i386 -hda boot.bin`
+
+# Notes
+
+## Video memory
+
+- starts at `0xb800` and this address need to be saved in `ES`
+- `DI` contains offset of mem address (better increase by 2)
+- `AX` contains 2 byte "object"
+- `stows` copy from `AX` to memory pointed by `ES:DI`  

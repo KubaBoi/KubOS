@@ -73,10 +73,10 @@ hexloop:
 clear:
     mov ax, 0xb800 
     mov es, ax 
-    mov al, 0 
-    mov ah, 0x0F
+    mov al, 0    ; char
+    mov ah, 0x0F ; attr
+    
     xor cx, cx
-
     clear_loop:
         xor di, di
         add di, cx
