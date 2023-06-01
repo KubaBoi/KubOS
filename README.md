@@ -7,6 +7,8 @@
 
 VSCode extension - ASM Code Lens
 
+http://www.baldwin.cx/386htm/c17.htm
+
 ## build
 
 - ./build.sh 
