@@ -1,6 +1,6 @@
     jmp main
 
-%include "lib/print.asm"
+%include "lib/io.asm"
 main:
     mov ax, 0x07C0
     mov ds, ax

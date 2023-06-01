@@ -1,3 +1,4 @@
+; Print message saved in SI
 bios_print:
    lodsb
    or al, al  ;zero=end of str
@@ -6,5 +7,8 @@ bios_print:
    mov bh, 0
    int 0x10
    jmp bios_print
+
+
+
 done:
    ret

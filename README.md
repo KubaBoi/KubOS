@@ -5,6 +5,8 @@
 - sudo apt install make
 - sudo apt install grub-common
 
+VSCode extension - ASM Code Lens
+
 ## build
 
 - ./build.sh 
