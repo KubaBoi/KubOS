@@ -9,9 +9,10 @@ start:
     mov ss, ax   ; stack starts at 0
     mov sp, 0x9c00   ; 200h past code start
     
-    call clearscreen
     mov ax, 0xb800   ; text video memory
     mov es, ax
+    call clearscreen
+    
     mov si, msg
     call sprint
     
@@ -30,7 +31,7 @@ keyhandler:
     in al, 0x60   ; get key data
     mov bl, al   ; save it
     mov byte [port60], al
-    ;call cprint
+    
     in al, 0x61   ; keybrd control
     mov ah, al
     or al, 0x80   ; disable bit 7
@@ -44,6 +45,8 @@ keyhandler:
     and bl, 0x80   ; key released
     jnz done   ; don't repeat
     
+    mov al, '#'
+    call cprint
     mov ax, [port60]
     mov  word [reg16], ax
     call printreg16
@@ -52,6 +55,6 @@ done:
     iret
  
 port60   dw 0 
-msg   db "Hello", 10, " world", 10, "ahoj", 10, 0
-times 510-($-$$) db 0  ; fill sector w/ 0's
-dw 0xAA55        ; req'd by some BIOSes
+msg   db "Hello", 10, " world", 10, "ahoj", 10, "aaaa", 10, 0
+times 510-($-$$) db 0  
+dw 0xAA55  

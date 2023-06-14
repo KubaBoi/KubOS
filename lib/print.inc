@@ -20,16 +20,17 @@ newline:
     xor dx, dx
     div cx ; dx is modulo ax is result
     sub cx, dx
-    xor al, al
-    mov ah, 0x0F
+    xor al, al ; char 0
+    mov ah, 0x0F ; attrib
+    mov bx, [cursor]
     newline_loop:
-        movzx bx, byte [cursor]
         mov di, bx
         stosw
-        add byte [cursor], 2
+        add bx, 2
         sub cx, 2
         cmp cx, 0
         jg newline_loop
+    mov [cursor], bx
 
 ; Print string from SI 
 ; ES need to be set to 0xb800 
@@ -41,17 +42,17 @@ sprint:
     jne dochar   ; else, we're done
     ret
  
-; Print one character from AL
+; Print one character from AL with atrribs from AH (0x0F)
 ; ES need to be set to 0xb800 
 cprint:   
     mov ah, 0x0F   ; attrib = black on white
     mov cx, ax    ; save char/attribute
-    movzx ax, byte [cursor]
+    mov ax, [cursor]
     mov di, ax      ; set offset
     
     mov ax, cx        ; restore char/attribute
     stosw              ; write char/attribute
-    add byte [cursor], 2  ; advance to right
+    add word [cursor], 2  ; advance to right
     
     ret
 ;-----------------------------------------------
@@ -79,8 +80,6 @@ hexloop:
 ;-----------------------------------------------
 
 clearscreen:
-    mov ax, 0xb800 
-    mov es, ax 
     mov al, '_'   ; char
     mov ah, 0x0F ; attr
     
@@ -98,9 +97,7 @@ clearscreen:
 VIDEO_MEM_SZ equ 3999
 SCREEN_WIDTH equ 160
 
-cursor db 0
-xpos   db 0
-ypos   db 0
+cursor dw 0
 hexstr   db '0123456789ABCDEF'
 outstr16   db '0000', 0  ;register value string
 reg16   dw    0  ; pass values to printreg16
