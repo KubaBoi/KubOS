@@ -55,6 +55,6 @@ done:
     iret
  
 port60   dw 0 
-msg   db "Hello", 10, " world", 10, "ahoj", 10, "aaaa", 10, 0
+msg   db "Hello", 10, " world", 10, 0
 times 510-($-$$) db 0  
 dw 0xAA55  

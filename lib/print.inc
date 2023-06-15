@@ -53,12 +53,15 @@ cprint:
     mov ax, cx        ; restore char/attribute
     stosw              ; write char/attribute
     add word [cursor], 2  ; advance to right
-    
+    cmp word [cursor], VIDEO_MEM_SZ
+    jle cprint_done
+    mov word [cursor], 0
+    cprint_done:
     ret
 ;-----------------------------------------------
 
 ; Print 4 bytes of `reg16` variable
-; `mov word [reg16], ax`
+; `mov word [reg16], ax` - print content of AX
 printreg16:
     mov di, outstr16
     mov ax, [reg16]
@@ -80,7 +83,7 @@ hexloop:
 ;-----------------------------------------------
 
 clearscreen:
-    mov al, '_'   ; char
+    mov al, 0   ; char
     mov ah, 0x0F ; attr
     
     xor cx, cx
