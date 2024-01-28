@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "wsl; ./build.sh; make run",
+            "command": "bash compile_and_run.sh",
             "name": "Run",
             "request": "launch",
             "type": "node-terminal"
