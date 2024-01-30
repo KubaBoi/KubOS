@@ -44,3 +44,29 @@ https://wiki.osdev.org/Babystep1
     - attribute
         - 0xF0 - white bc, black text
         - 0x0F - black bc, white text
+
+# Part 2
+
+https://stackoverflow.com/questions/22054578/how-to-run-a-program-without-an-operating-system/32483545#32483545
+
+```bash
+printf '\364%509s\125\252' > main.img
+sudo apt-get install qemu-system-x86
+qemu-system-x86_64 -hda main.img
+```
+
+```bash
+echo hlt > a.S
+as -o a.o a.S
+objdump -S a.o
+```
+
+## Assemble and link asm helloworld
+
+```bash
+as -g -o main.o main.S
+ld --oformat binary -o main.img -T link.ld main.o
+qemu-system-x86_64 -hda main.img
+```
+
+`--oformat binary` - output raw binary assembly code, don't wrap it inside an ELF file as is the case for regular userland executables.
