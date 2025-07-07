@@ -1,26 +1,22 @@
 #!/bin/bash
 
-# sudo apt install qemu-utils qemu-system-x86 qemu-system-gui
-
-flag_build=0    # -b
+flag_debug=0    # -d
 flag_run=0      # -r
 
 # Zpracování argumentů
-while getopts "br" opt; do
+while getopts "dr" opt; do
   case "$opt" in
-    b) flag_build=1 ;;
+    d) flag_debug=1 ;;
     r) flag_run=1 ;;
     ?) echo "Unknown: -$OPTARG" >&2; exit 1 ;;
   esac
 done
 
-if [ $flag_build -eq 1 ]; then
-    sudo docker rmi kubos-builder
-    sudo docker build -t kubos-builder .
-fi
+make
 
-sudo docker run --rm -v "$PWD":/src kubos-builder
-
+PARAMS=()
 if [ $flag_run -eq 1 ]; then
-    qemu-system-i386 -fda build/main_floppy.img
+    qemu-system-i386 -drive format=raw,file=build/main_floppy.img
+elif [ $flag_debug -eq 1 ]; then
+    bochs -f bochs_config
 fi
