@@ -5,9 +5,12 @@
 FROM ubuntu:22.04
 
 RUN apt update && apt upgrade -y && \
-    apt install make nasm qemu 
+    apt -y install make nasm qemu-system-i386 \
+                    dosfstools mtools bochs
 
 WORKDIR /src
 
-CMD ["make"]
-#CMD ["qemu", "-kernel", "build/main_floppy.img"]
+COPY docker_entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
