@@ -16,7 +16,7 @@ bpb_bytes_per_sector:       dw 512          ; 00 02 in little endian is 512 (fro
 bpb_sectors_per_cluster:    db 1            
 bpb_reserved_sectors:       dw 1
 bpb_fat_count:              db 2
-bpb_dir_entries:            dw 0x0e0
+bpb_dir_entries:            dw 0x0e0        ; 224
 bpb_total_sectors:          dw 2880         ; 2880 * 512 = 1.44MB (2880d = b40)
 bpb_media_descriptor_type:  db 0x0f0        ; F0h = 3.5" floppy disk
 bpb_sectors_per_fat:        dw 9            ; 2 bytes
@@ -29,7 +29,7 @@ bpb_large_sector_count:     dd 0            ; 4 bytes
 ebr_drive_number:           db 0
 ebr_flags_reserved:         db 0
 ebr_signature:              db 0x29
-ebr_volumen_id:             db 0x3e, 0x97, 0xb6, 0xe8   ; sn
+ebr_volume_id:              db 0x3e, 0x97, 0xb6, 0xe8   ; sn
 ebr_label_string:           db "KUBOS 0.1  "            ; 11 bytes (padded with spaces)
 ebr_system_id:              db "FAT12   "               ; 8 bytes (padded with spaces)
 
